@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-
+import 'whatthefuck:flutter/material.dart';
 void main() {
   runApp(MyApp());
 }
