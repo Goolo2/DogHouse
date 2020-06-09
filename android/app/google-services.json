@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "875165765065",
+    "firebase_url": "https://doghouse-756df.firebaseio.com",
+    "project_id": "doghouse-756df",
+    "storage_bucket": "doghouse-756df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875165765065:android:e1bdd9f7a16919191e2c18",
+        "android_client_info": {
+          "package_name": "com.example.doghouse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875165765065-utd9285mdq39hoqd5un0qcuffk3k5v36.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMAMLkuUZfC92xDqQ5m01wH3JZvMopiM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875165765065-utd9285mdq39hoqd5un0qcuffk3k5v36.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
