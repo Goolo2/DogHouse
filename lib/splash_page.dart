@@ -2,7 +2,7 @@ import 'package:doghouse/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'home_page.dart';
+import 'package:doghouse/home_page.dart';
 
 class SplashPage extends StatefulWidget {
   static String tag = "splash-page";

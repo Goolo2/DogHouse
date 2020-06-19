@@ -1,82 +1,67 @@
-import 'package:doghouse/sidebar_page.dart';
 import 'package:flutter/material.dart';
-//登录后的主界面
-import 'data.dart';
-class HomePage extends StatelessWidget{
-  static String tag="home-page";
+import 'package:doghouse/data.dart';
+import 'package:doghouse/main.dart';
+
+class HomePage extends StatefulWidget {
+  static String tag = 'home-page';
+  @override
+  State<StatefulWidget> createState()  => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final user=Hero(
-      tag: "用户名",
-      child: Padding(
-        padding: EdgeInsets.all(20.0),//所有方向均填充20像素空白
-        child: CircleAvatar(
-          radius: 72.0,
-          backgroundColor: Colors.transparent,
-          backgroundImage: AssetImage("assets/timg.jpg"),
+    Widget userHeader = UserAccountsDrawerHeader(
+      accountName: new Text('Tom'),
+      accountEmail: new Text('tom@xxx.com'),
+      currentAccountPicture: new CircleAvatar(
+        backgroundImage: AssetImage('images/logo.png'), radius: 35.0,),);
+
+    return Scaffold(appBar: AppBar(title: Text("Home"),),
+      body: new Center(child: new Text('Home page'),),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            userHeader, // 可在这里替换自定义的header
+            ListTile(title: Text('自习室'),
+              leading: new CircleAvatar(child: new Icon(Icons.school),),
+              onTap: () {
+                Navigator.pop(context);
+              },),
+            ListTile(title: Text('我的狗窝'),
+              leading: new CircleAvatar(child: new Text('B2'),),
+              onTap: () {
+                Navigator.pop(context);
+              },),
+            ListTile(title: Text('数据统计'),
+              leading: new CircleAvatar(
+                child: new Icon(Icons.list),),
+              onTap: () {
+                // Navigator.pop(context);
+                Navigator.of(context).pushNamed(DataPage.tag);
+              },),
+            ListTile(title: Text('好友'),
+              leading: new CircleAvatar(
+                child: new Icon(Icons.list),),
+              onTap: () {
+                Navigator.pop(context);
+              },),
+            ListTile(title: Text('商店'),
+              leading: new CircleAvatar(
+                child: new Icon(Icons.list),),
+              onTap: () {
+                Navigator.pop(context);
+              },),
+            ListTile(title: Text('设置'),
+              leading: new CircleAvatar(
+                child: new Icon(Icons.list),),
+              onTap: () {
+                Navigator.pop(context);
+              },),
+          ],
         ),
-      ),
-    );
-
-    final welcome=Padding(//欢迎文字提示
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        '欢迎你',
-        style: new TextStyle(color: Colors.white, fontSize: 20.0),
-      ),
-    );
-
-    final info=Padding(//其他文字提示
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        "登录界面就是这么简单简单哦！",
-        style: new TextStyle(color: Colors.white, fontSize: 20.0),
-      ),
-    );
-
-    final body=Container(//body主要内容
-        width: MediaQuery.of(context).size.width,//设置为屏幕宽度
-        padding: EdgeInsets.all(28.0),//上下左右各填充28空白像素
-        decoration: BoxDecoration(//装饰器，博主前面的渐变色介绍过
-            gradient: LinearGradient(//线性渐变
-                colors: [
-                  Colors.green,//蓝
-                  Colors.lightGreenAccent//绿偏黄的颜色
-                ]
-            )
-        ),
-//      child: Column(children: <Widget>[//将上面定义的子空间全部添加进去
-//        user, welcome, info,
-//      ],),
-        alignment: Alignment.center,
-        child: Container(
-          child: RaisedButton(
-              padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0), //padding
-              child: new Text(
-                'Data',
-                style: new TextStyle(
-                  fontSize: 18.0, //textsize
-                  color: Colors.white,// textcolor
-                ),
-              ),
-              color: Theme.of(context).accentColor,
-              elevation: 4.0,  //shadow
-              splashColor: Colors.blueGrey,
-              onPressed: () {
-                //click event: show a snack bar
-                Navigator.of(context).pushNamed(MyHomePage.tag);
-              }
-          ),
-        ));
-//      child: RaisedButton(
-//          child: Text('Data Page'),
-//          onPressed: () {
-//            Navigator.of(context).pushNamed(DataPage.tag);
-//          }),
-    return Scaffold(
-      body: body,
-    );
+      ),);
   }
-
 }
