@@ -1,3 +1,4 @@
+import 'package:doghouse/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:doghouse/home_page.dart';
 import 'package:doghouse/login_page.dart';
@@ -9,6 +10,7 @@ class MyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder> {
     LoginPage.tag: (context) => LoginPage(),
     HomePage.tag: (context) => HomePage(),
+    RegisterPage.tag: (content) => RegisterPage(),
   };
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 //登录后的主界面
 class HomePage extends StatelessWidget{
-  static String tag="home_page";
+  static String tag="home-page";
 
   @override
   Widget build(BuildContext context) {

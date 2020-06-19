@@ -1,29 +1,32 @@
-import 'package:doghouse/register_page.dart';
+import 'package:doghouse/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'home_page.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class LoginPage extends StatefulWidget {
-  static String tag = 'login-page';
+class RegisterPage extends StatefulWidget {
+  static String tag = 'register-page';
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
 
   //焦点
   FocusNode _focusNodeUserName = new FocusNode();
   FocusNode _focusNodePassWord = new FocusNode();
+  FocusNode _focusNodeConfirmPassWord = new FocusNode();
 
   //用户名输入框控制器，此控制器可以监听用户名输入框操作
   TextEditingController _userNameController = new TextEditingController();
+  // 如果两次密码输入不一致，点即重试后要清空确认密码框
+  TextEditingController _confirmPasswordController = new TextEditingController();
 
   //表单状态
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> _formKey_register = GlobalKey<FormState>();
 
   var _password = ''; //密码
   var _username = ''; //用户名
+  var _confirm_password = ''; //确认密码
+  var _isShowConfirmPwd = false; //确认密码时是否显示密码
   var _isShowPwd = false; //是否显示密码
   var _isShowClear = false; //是否显示输入框尾部的清除按钮
 
@@ -32,6 +35,7 @@ class _LoginPageState extends State<LoginPage> {
     //设置焦点监听
     _focusNodeUserName.addListener(_focusNodeListener);
     _focusNodePassWord.addListener(_focusNodeListener);
+    _focusNodeConfirmPassWord.addListener(_focusNodeListener);
     //监听用户名框的输入改变
     _userNameController.addListener((){
       print(_userNameController.text);
@@ -39,7 +43,8 @@ class _LoginPageState extends State<LoginPage> {
       // 监听文本框输入变化，当有内容的时候，显示尾部清除按钮，否则不显示
       if (_userNameController.text.length > 0) {
         _isShowClear = true;
-      }else{
+      }
+      else{
         _isShowClear = false;
       }
       setState(() {
@@ -55,6 +60,7 @@ class _LoginPageState extends State<LoginPage> {
     // 移除焦点监听
     _focusNodeUserName.removeListener(_focusNodeListener);
     _focusNodePassWord.removeListener(_focusNodeListener);
+    _focusNodeConfirmPassWord.removeListener(_focusNodeListener);
     _userNameController.dispose();
     super.dispose();
   }
@@ -63,12 +69,20 @@ class _LoginPageState extends State<LoginPage> {
   Future<Null> _focusNodeListener() async{
     if(_focusNodeUserName.hasFocus){
       print("用户名框获取焦点");
-      // 取消密码框的焦点状态
+      // 取消密码框和确认密码框的焦点状态
       _focusNodePassWord.unfocus();
+      _focusNodeConfirmPassWord.unfocus();
     }
     if (_focusNodePassWord.hasFocus) {
       print("密码框获取焦点");
-      // 取消用户名框焦点状态
+      // 取消用户名框和确认密码框焦点状态
+      _focusNodeConfirmPassWord.unfocus();
+      _focusNodeUserName.unfocus();
+    }
+    if(_focusNodeConfirmPassWord.hasFocus){
+      print("确认密码框获取焦点");
+      // 取消密码框和用户框的焦点状态
+      _focusNodePassWord.unfocus();
       _focusNodeUserName.unfocus();
     }
   }
@@ -82,7 +96,8 @@ class _LoginPageState extends State<LoginPage> {
     RegExp exp = RegExp(r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
     if (value.isEmpty) {
       return '用户名不能为空!';
-    }else if (!exp.hasMatch(value)) {
+    }
+    else if (!exp.hasMatch(value)) {
       return '请输入正确手机号';
     }
     return null;
@@ -102,6 +117,41 @@ class _LoginPageState extends State<LoginPage> {
       return '密码长度不得长于18位';
     }
     return null;
+  }
+
+  void showAlertDialog() {
+    showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: new Text('错误'),
+            //可滑动
+            content: new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  new Text('两次密码输入不一致'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('重试'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _confirmPasswordController.clear();
+                },
+              ),
+              new FlatButton(
+                child: new Text('取消'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(RegisterPage.tag);
+                },
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -133,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
           color: Colors.white
       ),
       child: new Form(
-        key: _formKey,
+        key: _formKey_register,
         child: new Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -188,78 +238,68 @@ class _LoginPageState extends State<LoginPage> {
               onSaved: (String value){
                 _password = value;
               },
-            )
+            ),
+            new TextFormField(
+              controller: _confirmPasswordController,
+              focusNode: _focusNodeConfirmPassWord,
+              decoration: InputDecoration(
+                  labelText: "确认密码",
+                  hintText: "请再次输入密码",
+                  prefixIcon: Icon(Icons.lock),
+                  // 是否显示密码
+                  suffixIcon: IconButton(
+                    icon: Icon((_isShowConfirmPwd) ? Icons.visibility : Icons.visibility_off),
+                    // 点击改变显示或隐藏密码
+                    onPressed: (){
+                      setState(() {
+                        _isShowConfirmPwd = !_isShowConfirmPwd;
+                      });
+                    },
+                  )
+              ),
+              obscureText: !_isShowConfirmPwd,
+              //密码验证
+              validator:validatePassWord,
+              //保存数据
+              onSaved: (String value){
+                _confirm_password = value;
+              },
+            ),
           ],
         ),
       ),
     );
 
-    // 登录按钮区域
-    Widget loginButtonArea = new Container(
+    // 注册按钮区域
+    Widget registerButtonArea = new Container(
       margin: EdgeInsets.only(left: 20,right: 20),
       height: 45.0,
       child: new RaisedButton(
         color: Colors.blue[300],
         child: Text(
-          "登录",
+          "注册",
           style: Theme.of(context).primaryTextTheme.headline,
         ),
         // 设置按钮圆角
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         onPressed: (){
-          //点击登录按钮，解除焦点，回收键盘
+          //点击注册按钮，解除焦点，回收键盘
           _focusNodePassWord.unfocus();
           _focusNodeUserName.unfocus();
+          _focusNodeConfirmPassWord.unfocus();
 
-          if (_formKey.currentState.validate()) {
+          if (_formKey_register.currentState.validate()) {
             //只有输入通过验证，才会执行这里
-            _formKey.currentState.save();
-            //todo 登录操作
-            Navigator.of(context).pushNamed(HomePage.tag); //跳转到homepage
-            print("$_username + $_password");
+            _formKey_register.currentState.save();
+            // 注册操作，先验证密码与确认密码是否一致，不一致弹出警告框
+            if(_password == _confirm_password) {
+              Navigator.of(context).pushNamed(LoginPage.tag); //跳转到login page
+            }
+            else
+              showAlertDialog();
           }
 
         },
-      ),
-    );
-
-
-    //忘记密码  立即注册
-    Widget bottomArea = new Container(
-      margin: EdgeInsets.only(right: 20,left: 30),
-      child: new Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          FlatButton(
-            child: Text(
-              "忘记密码?",
-              style: TextStyle(
-                color: Colors.blue[400],
-                fontSize: 16.0,
-              ),
-            ),
-            //忘记密码按钮，点击执行事件
-            onPressed: (){
-            // To do: 完善忘记密码相关操作
-            },
-          ),
-          FlatButton(
-            child: Text(
-              "快速注册",
-              style: TextStyle(
-                color: Colors.blue[400],
-                fontSize: 16.0,
-              ),
-            ),
-            //点击快速注册、执行事件
-            onPressed: (){
-                //注册相关操作
-              print('go to register page');
-              Navigator.of(context).pushNamed(RegisterPage.tag); //跳转到register page
-            },
-          )
-        ],
       ),
     );
 
@@ -272,6 +312,7 @@ class _LoginPageState extends State<LoginPage> {
           print("点击了空白区域");
           _focusNodePassWord.unfocus();
           _focusNodeUserName.unfocus();
+          _focusNodeConfirmPassWord.unfocus();
         },
         child: new ListView(
           children: <Widget>[
@@ -280,11 +321,7 @@ class _LoginPageState extends State<LoginPage> {
             new SizedBox(height: ScreenUtil().setHeight(70),),
             inputTextArea,
             new SizedBox(height: ScreenUtil().setHeight(80),),
-            loginButtonArea,
-//            new SizedBox(height: ScreenUtil().setHeight(60),),
-//            thirdLoginArea,
-            new SizedBox(height: ScreenUtil().setHeight(60),),
-            bottomArea,
+            registerButtonArea,
           ],
         ),
       ),
