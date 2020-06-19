@@ -1,4 +1,5 @@
 import 'package:doghouse/register_page.dart';
+import 'package:doghouse/splash_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -76,7 +77,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void passwordOrAccountNumberErrorAlertDialog() {
+  void passwordOrAccountNumberErrorAlertDialog(var err) {
+    print(err);
     showDialog<Null>(
         context: context,
         barrierDismissible: false,
@@ -265,7 +267,7 @@ class _LoginPageState extends State<LoginPage> {
                   .get()
                   .then((DocumentSnapshot result) =>
                      Navigator.of(context).pushNamed(HomePage.tag)))
-                  .catchError((err) => passwordOrAccountNumberErrorAlertDialog());
+                  .catchError((err) => passwordOrAccountNumberErrorAlertDialog(err));
           }
 
         },

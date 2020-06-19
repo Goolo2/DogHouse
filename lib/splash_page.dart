@@ -1,3 +1,4 @@
+import 'package:doghouse/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
         .currentUser()
         .then((currentUser) => {
       if (currentUser == null)
-        {Navigator.pushReplacementNamed(context, "/login")}
+        {Navigator.of(context).pushNamed(LoginPage.tag)}
       else
         {
           Firestore.instance

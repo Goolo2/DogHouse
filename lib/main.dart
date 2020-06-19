@@ -1,6 +1,7 @@
 import 'package:doghouse/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:doghouse/home_page.dart';
+import 'package:doghouse/splash_page.dart';
 import 'package:doghouse/login_page.dart';
 
 void main() => runApp(new MyApp());
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
     LoginPage.tag: (context) => LoginPage(),
     HomePage.tag: (context) => HomePage(),
     RegisterPage.tag: (content) => RegisterPage(),
+    SplashPage.tag: (content) => SplashPage(),
   };
 
   @override
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.lightBlue,
       ),
-      home: LoginPage(),
+      home: SplashPage(),
       routes: routes,
     );
   }
