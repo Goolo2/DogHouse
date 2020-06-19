@@ -113,6 +113,35 @@ class _LoginPageState extends State<LoginPage> {
         });
   }
 
+  void resetPasswordAlertDialog() {
+    var email = _accountNumberController.text;
+    showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: new Text('提示'),
+            //可滑动
+            content: new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  new Text('已向$email 发送重置密码邮件'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('确定'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _passwordController.clear();
+                },
+              ),
+
+            ],
+          );
+        });
+  }
    // 验证用户名
   String validateAccountNumber(value) {
     Pattern pattern =
@@ -293,6 +322,10 @@ class _LoginPageState extends State<LoginPage> {
             //忘记密码按钮，点击执行事件
             onPressed: (){
             // To do: 完善忘记密码相关操作
+              print('忘记密码 ，账号为'); print(_accountNumberController.text);
+              FirebaseAuth.instance.sendPasswordResetEmail(email: _accountNumberController.text);
+              resetPasswordAlertDialog();
+
             },
           ),
           FlatButton(

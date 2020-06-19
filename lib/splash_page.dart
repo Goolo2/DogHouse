@@ -27,14 +27,13 @@ class _SplashPageState extends State<SplashPage> {
               .document(currentUser.uid)
               .get()
               .then((DocumentSnapshot result) =>
-              Navigator.of(context).pushNamed(HomePage.tag)
+              Navigator.of(context).pushNamed(LoginPage.tag)
               .catchError((err) => print(err)))
           }
     })
         .catchError((err) => print(err));
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
