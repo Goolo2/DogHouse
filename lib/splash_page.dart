@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'home_page.dart';
 
 class SplashPage extends StatefulWidget {
-  static String tag="splash-page";
+  static String tag = "splash-page";
   SplashPage({Key key}) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
               .document(currentUser.uid)
               .get()
               .then((DocumentSnapshot result) =>
-              Navigator.of(context).pushNamed(LoginPage.tag)
+              Navigator.of(context).pushNamed(HomePage.tag)
               .catchError((err) => print(err)))
           }
     })

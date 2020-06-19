@@ -284,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
           if (_formKey.currentState.validate()) {
             //只有输入通过验证，才会执行这里
             _formKey.currentState.save();
-            //todo 登录操作
+            //登录操作
             // connect database
             print('Account number: $_accountNumber');
             FirebaseAuth.instance
@@ -297,6 +297,7 @@ class _LoginPageState extends State<LoginPage> {
                   .then((DocumentSnapshot result) =>
                      Navigator.of(context).pushNamed(HomePage.tag)))
                   .catchError((err) => passwordOrAccountNumberErrorAlertDialog(err));
+
           }
 
         },
