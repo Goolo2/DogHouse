@@ -21,16 +21,17 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  firebase_auth:
-    path: E:\flutter_windows_1.17.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_auth-0.11.0
-  flutter_screenutil:
-    path: E:\flutter_windows_1.17.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_screenutil-1.1.0
-  font_awesome_flutter:
-    path: E:\flutter_windows_1.17.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\font_awesome_flutter-master
-  charts_flutter:
-    path: E:\flutter_windows_1.17.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\charts_flutter-0.9.0
-  cloud_firestore:
-    path: E:\flutter_windows_1.17.2-stable\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-0.13.6
+
+  firebase_auth: ^0.11.0
+  #path: D:\flutter\.pub-cache\hosted\pub.dartlang.org\firebase_auth-0.11.0
+  flutter_screenutil: ^1.1.0
+  #path: D:\flutter\.pub-cache\hosted\pub.dartlang.org\flutter_screenutil-1.1.0
+  font_awesome_flutter: ^8.8.1
+  #path: D:\flutter\.pub-cache\hosted\pub.dartlang.org\font_awesome_flutter-8.8.1
+  charts_flutter: ^0.9.0
+  # : D:\flutter\.pub-cache\hosted\pub.dartlang.org\charts_flutter-0.9.0
+  cloud_firestore: ^0.13.6
+  # path: D:\flutter\.pub-cache\hosted\pub.dartlang.org\cloud_firestore-0.13.6
   flutter:
     sdk: flutter
 
