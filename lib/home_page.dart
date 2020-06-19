@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:doghouse/data.dart';
+import 'package:doghouse/timer.dart';
 import 'package:doghouse/main.dart';
+
 
 class HomePage extends StatefulWidget {
   static String tag = 'home-page';
@@ -18,7 +20,17 @@ class _HomePageState extends State<HomePage> {
         backgroundImage: AssetImage('images/logo.png'), radius: 35.0,),);
 
     return Scaffold(appBar: AppBar(title: Text("Home"),),
-      body: new Center(child: new Text('Home page'),),
+      body:
+        new Center(
+          child: new RaisedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(TimerPage.tag);
+            },
+            child: new Text("点我跳转"),
+            color: Colors.blue,
+            highlightColor: Colors.lightBlue,
+          ),
+        ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
