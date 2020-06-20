@@ -5,12 +5,22 @@ import 'package:doghouse/timer.dart';
 import 'package:doghouse/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+class TimeEntry{
+  DateTime date;
+  int time;
+  String tag;
+  TimeEntry(this.date, this.time, this.tag);
+}
+
+
 class HomePage extends StatefulWidget {
 
   static String tag = 'home-page';
+  static List<TimeEntry> times = List();
   @override
   State<StatefulWidget> createState()  => _HomePageState();
 }
+
 
 class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -18,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   FirebaseUser user;
   initUser() async {
     user = await _auth.currentUser();
-    print(user);
+    result = await Firestore.instance.collection("users").document(user.uid).get() as DocumentSnapshot;
     setState(() {});
   }
   @override
@@ -29,6 +39,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+//
+    if (result != null){
+      for (String key in result["time"].keys){
+        HomePage.times.add(TimeEntry(result["time"][key]["date"].toDate(), result["time"][key]["time"], result["time"][key]["tag"]));
+      }
+    }
+
     Widget userHeader =  UserAccountsDrawerHeader(
       accountName: new Text("${user?.displayName}"),
       accountEmail: new Text("${user?.email}"),
