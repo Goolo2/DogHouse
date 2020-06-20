@@ -87,7 +87,14 @@ class _RegisterPageState extends State<RegisterPage> {
     _userNameController.dispose();
     super.dispose();
   }
-
+  void setDisplayUserName() async{
+    FirebaseUser user;
+    user = await FirebaseAuth.instance.currentUser();
+    UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
+    userUpdateInfo.displayName = _username;
+    user.updateProfile(userUpdateInfo);
+}
+  
   // 监听焦点
   Future<Null> _focusNodeListener() async{
     if(_focusNodeUserName.hasFocus){
@@ -363,6 +370,7 @@ class _RegisterPageState extends State<RegisterPage> {
             if(_password == _confirm_password) {
               // connect database
               print('Account number: $_accountNumber');
+              FirebaseUser user;
               FirebaseAuth.instance
                   .createUserWithEmailAndPassword(
                     email: _accountNumber, password: _password)
@@ -373,7 +381,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       "uid": currentUser.uid,
                       "username": _username,
                       "accountNumber": _accountNumber,
-              }).then((result) => Navigator.of(context).pushNamed(HomePage.tag)));
+              }).then((result)
+              {
+                setDisplayUserName();
+                Navigator.of(context).pushNamed(HomePage.tag);
+              }));
             }
             else
               showAlertDialog();

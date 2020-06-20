@@ -1,25 +1,41 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:doghouse/data.dart';
 import 'package:doghouse/timer.dart';
 import 'package:doghouse/main.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomePage extends StatefulWidget {
+
   static String tag = 'home-page';
   @override
   State<StatefulWidget> createState()  => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  DocumentSnapshot result;
+  FirebaseUser user;
+  initUser() async {
+    user = await _auth.currentUser();
+    print(user);
+    setState(() {});
+  }
+  @override
+  void initState() {
+    super.initState();
+    initUser();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget userHeader = UserAccountsDrawerHeader(
-      accountName: new Text('Tom'),
-      accountEmail: new Text('tom@xxx.com'),
+    Widget userHeader =  UserAccountsDrawerHeader(
+      accountName: new Text("${user?.displayName}"),
+      accountEmail: new Text("${user?.email}"),
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/logo.png'), radius: 35.0,),);
 
-    return Scaffold(appBar: AppBar(title: Text("Home"),),
+    return  Scaffold(appBar: AppBar(title: Text("Home"),),
       body:
         new Center(
           child: new RaisedButton(

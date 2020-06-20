@@ -4,6 +4,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 class DataPage extends StatefulWidget {
   static String tag = 'data-page';
+
   @override
   systemPagerState createState() => systemPagerState();
 }

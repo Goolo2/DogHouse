@@ -25,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
 
   //表单状态
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   var _password = ''; //密码
   var _accountNumber = ''; //账号
   var _isShowPwd = false; //是否显示密码
@@ -287,6 +286,7 @@ class _LoginPageState extends State<LoginPage> {
             //登录操作
             // connect database
             print('Account number: $_accountNumber');
+
             FirebaseAuth.instance
                 .signInWithEmailAndPassword(
                   email: _accountNumber, password: _password)

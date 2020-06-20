@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
+class UserInfo {
+  String userName;
+  String email;
+  DocumentSnapshot a;
+  CollectionReference collection = Firestore.instance.collection("users");
+  Stream<QuerySnapshot> getStream() {
+    return collection.snapshots();
+  }
+
+  UserInfo(this.userName, this.email);
+  void test()
+  {
+    collection.document("username").get().then((DocumentSnapshot result) => a = result);
+    print(a.toString());
+  }
+}
 /// Sample ordinal data type.
 class OrdinalSales {
   final String year;
