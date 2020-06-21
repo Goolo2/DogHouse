@@ -2,6 +2,7 @@ import 'package:doghouse/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:doghouse/home_page.dart';
 import 'package:doghouse/splash_page.dart';
+import 'package:doghouse/settings/change_username.dart';
 import 'package:doghouse/login_page.dart';
 import 'package:doghouse/data.dart';
 import 'package:doghouse/settings/setting_page.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
     SplashPage.tag: (content) => SplashPage(),
     SettingsPage.tag: (content) => SettingsPage(),
     ChangePasswordPage.tag: (content) => ChangePasswordPage(),
+    ChangeUsernamePage.tag: (content) => ChangeUsernamePage(),
   };
 
   @override

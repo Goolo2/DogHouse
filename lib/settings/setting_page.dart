@@ -1,4 +1,5 @@
 import 'package:doghouse/settings/change_password.dart';
+import 'package:doghouse/settings/change_username.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:doghouse/home_page.dart';
@@ -111,7 +112,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           title: Text("修改用户名"),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: () {
-                            //open change language
+                            Navigator.of(context).pushNamed(ChangeUsernamePage.tag);
                           },
                         ),
                         _buildDivider(),

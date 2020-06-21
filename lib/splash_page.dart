@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
               .document(currentUser.uid)
               .get()
               .then((DocumentSnapshot result) =>
-              Navigator.of(context).pushNamed(LoginPage.tag)
+              Navigator.of(context).pushNamed(HomePage.tag)
               .catchError((err) => print(err)))
           }
     })
