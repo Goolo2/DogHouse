@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'home_page.dart';
 
 class TimerPage extends StatefulWidget {
   static String tag = 'timer-page';
   @override
-  TimerPagerState createState() => TimerPagerState();
+  State<StatefulWidget> createState()  => TimerPagerState();
 }
 // class TimerPagerState extends State<TimerPage>{
 //   @override
@@ -40,6 +41,8 @@ class TimerPagerState extends State<TimerPage> with TickerProviderStateMixin{
       duration: Duration(seconds: 10),
     );
 
+
+
     // ..addStatusListener((status) {
     //     if (controller.status == AnimationStatus.dismissed) {
     //       setState(() => isPlaying = false);
@@ -52,6 +55,7 @@ class TimerPagerState extends State<TimerPage> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     ThemeData themeData = Theme.of(context);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(8.0),
