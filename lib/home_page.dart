@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:doghouse/data.dart';
+import 'package:doghouse/settings/setting_page.dart';
 import 'package:doghouse/timer.dart';
 import 'package:doghouse/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +23,8 @@ class HomePage extends StatefulWidget {
 
   static String tag = 'home-page';
   static List<TimeEntry> times = List();
+  static String username = '';
+  static String email = '';
   @override
   State<StatefulWidget> createState()  => _HomePageState();
 }
@@ -35,6 +38,8 @@ class _HomePageState extends State<HomePage> {
     user = await _auth.currentUser();
     result = await Firestore.instance.collection("users").document(user.uid).get();
     setState(() {});
+    HomePage.username = user.displayName;
+    HomePage.email = user.email;
   }
   @override
   void initState() {
@@ -134,20 +139,20 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pop(context);
               },),
             ListTile(title: Text('我的狗窝'),
-              leading: new CircleAvatar(child: new Text('B2'),),
+              leading: new CircleAvatar(child: new Icon(Icons.sd_storage),),
               onTap: () {
                 Navigator.pop(context);
               },),
             ListTile(title: Text('数据统计'),
               leading: new CircleAvatar(
-                child: new Icon(Icons.list),),
+                child: new Icon(Icons.data_usage),),
               onTap: () {
                 // Navigator.pop(context);
                 Navigator.of(context).pushNamed(DataPage.tag);
               },),
             ListTile(title: Text('好友'),
               leading: new CircleAvatar(
-                child: new Icon(Icons.list),),
+                child: new Icon(Icons.people),),
               onTap: () {
                 Navigator.pop(context);
               },),
@@ -159,9 +164,9 @@ class _HomePageState extends State<HomePage> {
               },),
             ListTile(title: Text('设置'),
               leading: new CircleAvatar(
-                child: new Icon(Icons.list),),
+                child: new Icon(Icons.settings),),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).pushNamed(SettingsPage.tag);
               },),
           ],
         ),

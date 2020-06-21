@@ -4,6 +4,8 @@ import 'package:doghouse/home_page.dart';
 import 'package:doghouse/splash_page.dart';
 import 'package:doghouse/login_page.dart';
 import 'package:doghouse/data.dart';
+import 'package:doghouse/settings/setting_page.dart';
+import 'package:doghouse/settings/change_password.dart';
 import 'package:doghouse/timer.dart';
 import 'package:doghouse/timer/screen.dart';
 
@@ -18,6 +20,8 @@ class MyApp extends StatelessWidget {
     TimerScreen.tag: (context,{arguments}) => TimerScreen(),
     RegisterPage.tag: (content) => RegisterPage(),
     SplashPage.tag: (content) => SplashPage(),
+    SettingsPage.tag: (content) => SettingsPage(),
+    ChangePasswordPage.tag: (content) => ChangePasswordPage(),
   };
 
   @override
