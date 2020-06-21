@@ -71,6 +71,7 @@ class HomePageState extends State<HomePage> {
     user = await _auth.currentUser();
     result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
     setState(() {});
+    print(user);
     HomePage.username = user.displayName;
     HomePage.email = user.email;
   }

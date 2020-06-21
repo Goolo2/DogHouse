@@ -381,12 +381,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       "uid": currentUser.uid,
                       "username": _username,
                       "accountNumber": _accountNumber,
-              }).then((result)
-              {
-                setDisplayUserName();
-                Firestore.instance.collection("times").document(currentUser.uid).setData({});
-                Navigator.of(context).pushNamed(HomePage.tag);
-              }));
+              }).then((result) => setDisplayUserName()
+//              {
+//                setDisplayUserName();
+//                Firestore.instance.collection("times").document(currentUser.uid).setData({});
+//                Navigator.of(context).pushNamed(HomePage.tag);
+//              }
+              ).then((value) => Firestore.instance.collection("times").document(currentUser.uid).setData({}))
+                  .then((value) => FirebaseAuth.instance
+                  .signInWithEmailAndPassword(
+                  email: _accountNumber, password: _password)).then((value) => Navigator.of(context).pushNamed(HomePage.tag)));
             }
             else
               showAlertDialog();
