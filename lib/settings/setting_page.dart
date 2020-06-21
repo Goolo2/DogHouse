@@ -17,7 +17,6 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    //print(HomePage.username);
     _dark = false;
   }
 
@@ -113,6 +112,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: () {
                             Navigator.of(context).pushNamed(ChangeUsernamePage.tag);
+                            setState(() {
+                              initState();build(context);
+                            });
                           },
                         ),
                         _buildDivider(),

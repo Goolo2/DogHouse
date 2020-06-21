@@ -231,6 +231,9 @@ class HomePageState extends State<HomePage> {
                 child: new Icon(Icons.settings),),
               onTap: () {
                 Navigator.of(context).pushNamed(SettingsPage.tag);
+                setState(() {
+                  initState(); build(context);
+                });
               },),
           ],
         ),
