@@ -384,6 +384,7 @@ class _RegisterPageState extends State<RegisterPage> {
               }).then((result)
               {
                 setDisplayUserName();
+                Firestore.instance.collection("times").document(currentUser.uid).setData({});
                 Navigator.of(context).pushNamed(HomePage.tag);
               }));
             }

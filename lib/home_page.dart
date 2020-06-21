@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (result["time"] != null){
+    if (result != null && result.data.length > 0 && result["time"] != null){
       for (String key in result["time"].keys){
         HomePage.times.add(TimeEntry(result["time"][key]["date"].toDate(), result["time"][key]["time"], result["time"][key]["tag"]));
       }
