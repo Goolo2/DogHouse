@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   FirebaseUser user;
   initUser() async {
     user = await _auth.currentUser();
-    result = await Firestore.instance.collection("users").document(user.uid).get() as DocumentSnapshot;
+    result = await Firestore.instance.collection("users").document(user.uid).get();
     setState(() {});
   }
   @override
@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-//
     if (result != null){
       for (String key in result["time"].keys){
         HomePage.times.add(TimeEntry(result["time"][key]["date"].toDate(), result["time"][key]["time"], result["time"][key]["tag"]));
