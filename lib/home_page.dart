@@ -4,6 +4,11 @@ import 'package:doghouse/data.dart';
 import 'package:doghouse/timer.dart';
 import 'package:doghouse/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/rendering.dart';
+import 'package:doghouse/timer/screen.dart';
+import 'package:numberpicker/numberpicker.dart';
+import 'package:doghouse/timer/neumorphic_bar.dart';
 
 class TimeEntry{
   DateTime date;
@@ -37,9 +42,15 @@ class _HomePageState extends State<HomePage> {
     initUser();
   }
 
+
+  NumberPicker integerNumberPicker;
+  // 设置时间
+  int _workSessionValue = 25;
+
+
   @override
   Widget build(BuildContext context) {
-    if (result != null){
+    if (result["time"] != null){
       for (String key in result["time"].keys){
         HomePage.times.add(TimeEntry(result["time"][key]["date"].toDate(), result["time"][key]["time"], result["time"][key]["tag"]));
       }
@@ -51,17 +62,66 @@ class _HomePageState extends State<HomePage> {
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/logo.png'), radius: 35.0,),);
 
+    // 计时页面相关设置
+    final Brightness brightnessValue =
+        MediaQuery.of(context).platformBrightness;
+    bool isDark = brightnessValue == Brightness.dark;
+
+
     return  Scaffold(appBar: AppBar(title: Text("Home"),),
       body:
         new Center(
-          child: new RaisedButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(TimerPage.tag);
-            },
-            child: new Text("点我跳转"),
-            color: Colors.blue,
-            highlightColor: Colors.lightBlue,
-          ),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                    width: 60,
+                    height: 10,
+                    child:new RaisedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue );
+                      // Navigator.of(context).pushNamed('Neumor', arguments: {width: 50,height: 100,value: 0.5,text: 'Mon',});
+                    },
+                    shape:RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(35))),
+                    color: Colors.red,
+                    // child: new Text("开始饲养"),
+                    // highlightColor: Colors.lightBlue,
+                    child: Container(
+                      alignment:Alignment.center ,
+                      height: 48,
+                      width: MediaQuery.of(context).size.width * .2,
+                      child: Text('开始饲养'),
+                      ),
+                  ),
+                ),
+                flex:1, 
+              ),
+              Expanded(
+                child: Container(
+                  width: 30,
+                  height: 30,
+                  child: RawMaterialButton(
+                    shape: new CircleBorder(),
+                    onPressed: _showWorkSessionDialog,
+                    fillColor: (isDark)
+                        ? Color.fromRGBO(92, 211, 62, 1)
+                        : Color.fromRGBO(242, 62, 60, 1),
+                    elevation: 0,
+                    child: Text(
+                      "$_workSessionValue",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+                flex: 1,
+              ),
+            ],
+          )
         ),
       drawer: Drawer(
         child: ListView(
@@ -106,5 +166,26 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),);
+  }
+    _handleWorkValueChangedExternally(num value) {
+    if (value != null) {
+      setState(() {
+        _workSessionValue = value;
+      });
+      integerNumberPicker.animateInt(value);
+    }
+  }
+  _showWorkSessionDialog() {
+    showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return new NumberPickerDialog.integer(
+          minValue: 0,
+          maxValue: 50,
+          initialIntegerValue: _workSessionValue,
+          title: Text("Select a minute"),
+        );
+      },
+    ).then(_handleWorkValueChangedExternally);
   }
 }

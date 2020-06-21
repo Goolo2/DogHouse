@@ -5,6 +5,7 @@ import 'package:doghouse/splash_page.dart';
 import 'package:doghouse/login_page.dart';
 import 'package:doghouse/data.dart';
 import 'package:doghouse/timer.dart';
+import 'package:doghouse/timer/screen.dart';
 
 void main() => runApp(new MyApp());
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     DataPage.tag: (content) => DataPage(),
     LoginPage.tag: (context) => LoginPage(),
     HomePage.tag: (context) => HomePage(),
-    TimerPage.tag: (context) => new TimerPage(),
+    TimerScreen.tag: (context,{arguments}) => TimerScreen(),
     RegisterPage.tag: (content) => RegisterPage(),
     SplashPage.tag: (content) => SplashPage(),
   };
