@@ -105,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         _buildDivider(),
                         ListTile(
                           leading: Icon(
-                            FontAwesomeIcons.language,
+                            FontAwesomeIcons.user,
                             color: Colors.purple,
                           ),
                           title: Text("修改用户名"),

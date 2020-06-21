@@ -6,26 +6,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ChangePasswordPage extends StatefulWidget {
-  static String tag = 'changePassword-page';
+class ChangeUsernamePage extends StatefulWidget {
+  static String tag = 'changeUsername-page';
   @override
-  _ChangePasswordPageState createState() => _ChangePasswordPageState();
+  _ChangeUsernamePageState createState() => _ChangeUsernamePageState();
 }
 
-class _ChangePasswordPageState extends State<ChangePasswordPage> {
+class _ChangeUsernamePageState extends State<ChangeUsernamePage> {
 
   //焦点
-  FocusNode _focusNodeNewPassWord = new FocusNode();
-  FocusNode _focusNodePassWord = new FocusNode();
+  FocusNode _focusNodeNewUsername = new FocusNode();
 
   //用户名输入框控制器，此控制器可以监听用户名输入框操作
-  TextEditingController _newPasswordController = new TextEditingController();
-  TextEditingController _passwordController = new TextEditingController();
+  TextEditingController _newUsernameController = new TextEditingController();
 
   //表单状态
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  var _old_password = ''; //密码
-  var _newPassword = ''; //账号
+  var _newUsername = ''; //账号
   var _isShowPwd = false; //是否显示密码
   var _isShowNewPwd = false;
 
@@ -117,10 +114,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   FirebaseAuth.instance
                       .signInWithEmailAndPassword(
                       email: HomePage.email, password: oldPassword).then((currentUser)
-                      {
-                        currentUser.updatePassword(passsword);
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pushNamed(SettingsPage.tag);})
+                  {
+                    currentUser.updatePassword(passsword);
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(SettingsPage.tag);})
                       .catchError((err) => passwordErrorAlertDialog(err));
 //                  FirebaseAuth.instance.currentUser().then((currentUser) {
 //                    currentUser.updatePassword(passsword);
@@ -300,7 +297,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             // connect database
             if (_old_password == _newPassword) oldNewPasswordSameAlertDialog();
             else
-            confirmChangePasswordDialog(_old_password, _newPassword);
+              confirmChangePasswordDialog(_old_password, _newPassword);
           }
 
         },
