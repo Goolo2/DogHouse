@@ -16,27 +16,60 @@ class TimeEntry{
   int time;
   String tag;
   TimeEntry(this.date, this.time, this.tag);
+  toJson(){
+    return{
+      "date": date,
+      "time": time,
+      "tag": tag
+    };
+  }
 }
 
-
 class HomePage extends StatefulWidget {
-
   static String tag = 'home-page';
   static List<TimeEntry> times = List();
   static String username = '';
   static String email = '';
   @override
-  State<StatefulWidget> createState()  => _HomePageState();
+  State<StatefulWidget> createState()  => HomePageState();
 }
 
+//class Database{
+//  final FirebaseAuth _auth = FirebaseAuth.instance;
+//  DocumentSnapshot result;
+//  FirebaseUser user;
+//
+//  void update_datebase(int _time, String _tag) async {
+//    user = await _auth.currentUser();
+//    result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
+//    DateTime date = new DateTime.now();
+//    int time = _time;
+//    String tag = _tag;
+//    String len = result.data.length.toString()??0;
+//    TimeEntry t = TimeEntry(date, time, tag);
+//    Firestore.instance.collection("times").document(user.uid).updateData({
+//      "${len}": t.toJson(),
+//    });
+//    init_database();
+//  }
+//
+//  void init_database() async {
+//    user = await _auth.currentUser();
+//    result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
+//    HomePage.times.clear();
+//    for (String key in result.data.keys){
+//      HomePage.times.add(TimeEntry(result[key]["date"].toDate(), result[key]["time"], result[key]["tag"]));
+//    }
+//  }
+//}
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DocumentSnapshot result;
   FirebaseUser user;
   initUser() async {
     user = await _auth.currentUser();
-    result = await Firestore.instance.collection("users").document(user.uid).get();
+    result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
     setState(() {});
     HomePage.username = user.displayName;
     HomePage.email = user.email;
@@ -47,6 +80,33 @@ class _HomePageState extends State<HomePage> {
     initUser();
   }
 
+  void update_datebase(int _time, String _tag, bool flag) async {
+    if(flag==false){
+      return;
+    }
+    else{
+      user = await _auth.currentUser();
+      result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
+      DateTime date = new DateTime.now();
+      int time = _time;
+      String tag = _tag;
+      String len = result.data.length.toString()??0;
+      TimeEntry t = TimeEntry(date, time, tag);
+      Firestore.instance.collection("times").document(user.uid).updateData({
+        "${len}": t.toJson(),
+      });
+      await init_database();
+    }
+  }
+
+  void init_database() async {
+    user = await _auth.currentUser();
+    result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
+    HomePage.times.clear();
+    for (String key in result.data.keys){
+      HomePage.times.add(TimeEntry(result[key]["date"].toDate(), result[key]["time"], result[key]["tag"]));
+    }
+  }
 
   NumberPicker integerNumberPicker;
   // 设置时间
@@ -55,12 +115,11 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (result != null && result.data.length > 0 && result["time"] != null){
-      for (String key in result["time"].keys){
-        HomePage.times.add(TimeEntry(result["time"][key]["date"].toDate(), result["time"][key]["time"], result["time"][key]["tag"]));
-      }
+    if (result != null ){
+//      Database().init_database();
+      init_database();
     }
-
+//    update_datebase(10, 'study');
     Widget userHeader =  UserAccountsDrawerHeader(
       accountName: new Text("${user?.displayName}"),
       accountEmail: new Text("${user?.email}"),

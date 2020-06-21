@@ -171,20 +171,13 @@ class LinearSales {
 class systemPagerState extends State<DataPage> {
   bool animate;
   List<Widget> widgetList = List();
-//  final FirebaseAuth _auth = FirebaseAuth.instance;
-//  DocumentSnapshot result;
-//  FirebaseUser user;
-//
-//  initUser() async{
-//    user = await _auth.currentUser();
-//    result = await Firestore.instance.collection("users").document(user.uid).get() as DocumentSnapshot;
-//    setState(() {});
-//  }
 
   @override
   void initState() {
     super.initState();
-    loadChartData();
+    if (HomePage.times != null){
+      loadChartData();
+    }
   }
 
   @override
@@ -207,18 +200,44 @@ class systemPagerState extends State<DataPage> {
   }
 //  2.0 柱状图
   static List<charts.Series<Barsales, String>>  getData() {
-      List<Barsales> StudyData = List();
-      List<Barsales> RelaxData = List();
-      List<Barsales> OtherData = List();
+
+    List<Barsales> StudyData = List();
+    List<Barsales> RelaxData = List();
+    List<Barsales> OtherData = List();
+//    for (TimeEntry time in HomePage.times){
+//      if (time.tag == 'study'){
+//        StudyData.add(new Barsales(time.date.day.toString(), time.time));
+//      }else if (time.tag == 'relax'){
+//        RelaxData.add(new Barsales(time.date.day.toString(), time.time));
+//      }else{
+//        OtherData.add(new Barsales(time.date.day.toString(), time.time));
+//      }
+//    }
+
+    int study=0;
+    int relax=0;
+    int other=0;
+    String date;
     for (TimeEntry time in HomePage.times){
+      date = time.date.day.toString();
       if (time.tag == 'study'){
-        StudyData.add(new Barsales(time.date.day.toString(), time.time));
+        study += time.time;
       }else if (time.tag == 'relax'){
-        RelaxData.add(new Barsales(time.date.day.toString(), time.time));
+        relax += time.time;
       }else{
-        OtherData.add(new Barsales(time.date.day.toString(), time.time));
+        other += time.time;
       }
     }
+    if (study > 0){
+      StudyData.add(new Barsales(date, study));
+    }
+    if (relax > 0){
+      RelaxData.add(new Barsales(date, relax));
+    }
+    if (other > 0){
+      OtherData.add(new Barsales(date, other));
+    }
+
     return [
       new charts.Series<Barsales, String>(
         id: 'Study',
@@ -254,6 +273,9 @@ class systemPagerState extends State<DataPage> {
         other += time.time;
       }
     }
+//    print(study);
+//    print(relax);
+//    print(other);
     final data = [
       new LinearSales(0, study),
       new LinearSales(1, relax),

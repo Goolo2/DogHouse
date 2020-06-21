@@ -6,6 +6,7 @@ import 'package:doghouse/timer/neu_hamburger_button.dart';
 import 'package:doghouse/timer/neu_progress_pie_bar.dart';
 import 'package:doghouse/timer/neu_reset_button.dart';
 import 'package:provider/provider.dart';
+import 'package:doghouse/home_page.dart';
 
 class TimerScreen extends StatelessWidget {
   static String tag = 'timer-page';
@@ -19,12 +20,15 @@ class TimerScreen extends StatelessWidget {
   // final arguments;
   // TimerScreen({this.arguments});
   // 获取路由参数
-  
+  bool flag = false;
   @override
   Widget build(BuildContext context) {
     // 只有在build里这样传才有用
     var arguments=ModalRoute.of(context).settings.arguments;
-    print(arguments);
+//    print(arguments);
+//    Database().update_datebase(arguments, 'study');
+    HomePageState().update_datebase(arguments, 'study', flag);
+    flag = !flag;
     final timeService = TimerService();
     return ChangeNotifierProvider<TimerService>(
       create: (_) => timeService,
