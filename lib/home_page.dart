@@ -37,6 +37,13 @@ class HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   DocumentSnapshot result;
   FirebaseUser user;
+  NumberPicker integerNumberPicker;
+  // 控制器，控制TextField文字
+  TextEditingController _name = TextEditingController();
+  // 设置默认时长
+  int _workSessionValue = 25;
+
+
   void fresh() {
     setState(() {
 
@@ -52,6 +59,7 @@ class HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    this._name.text = null; // 设置初始值
     initUser();
   }
 
@@ -83,11 +91,6 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  NumberPicker integerNumberPicker;
-  // 设置时间
-  int _workSessionValue = 25;
-
-
   @override
   Widget build(BuildContext context) {
     if (result != null ){
@@ -106,8 +109,34 @@ class HomePageState extends State<HomePage> {
         MediaQuery.of(context).platformBrightness;
     bool isDark = brightnessValue == Brightness.dark;
 
+    Widget settask=Container(
+      padding: const EdgeInsets.fromLTRB(320,20,0,20.0),
+      child: IconButton(
+                    icon:Icon(Icons.chat_bubble,size: 30,),
+                    // shape:RoundedRectangleBorder(
+                      // borderRadius: BorderRadius.all(Radius.circular(35))),
+                    color: Colors.white,
+                    onPressed: () async {
+                      //弹出对话框并等待其关闭，异步
+                      bool delete = await _showmydialog();
+                      if (delete == null) {
+                        this._name.text=null;
+                        this._name.clear();
+                        print("取消");
+                      } else {
+                        print(this._name.text);
+                        // 读取完清除值
+                        this._name.clear();
+                        print("确认");
+                        //... 删除文件
+                      }
+                    },
+                    // fillColor: Color.fromRGBO(242, 62, 60, 1),
+                    // elevation: 0,
+                  ),
+    );
     Widget startbutton=Container(
-      padding: const EdgeInsets.fromLTRB(135,110,135,20.0),
+      padding: const EdgeInsets.fromLTRB(135,20,135,20.0),
       child: new RaisedButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) {
@@ -131,7 +160,7 @@ class HomePageState extends State<HomePage> {
                   )
     );
     Widget showtime=Container(
-      padding: const EdgeInsets.fromLTRB(120,50,120,10),
+      padding: const EdgeInsets.fromLTRB(120,10,120,10),
       child: RawMaterialButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(35))),
@@ -160,12 +189,14 @@ class HomePageState extends State<HomePage> {
         radius: 150,
       )
     );
-    return  Scaffold(
-      appBar: AppBar(title: Text("Home"),),
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Page1"),
+      ),
       backgroundColor: Color.fromRGBO(50, 71, 85, 1),
-      body:
-        ListView(
+      body: ListView(
         children: [
+          settask,
           showtime,
           thedog,
           startbutton,
@@ -215,7 +246,8 @@ class HomePageState extends State<HomePage> {
               },),
           ],
         ),
-      ),);
+      ),
+    );
   }
    _handleWorkValueChangedExternally(num value) {
     if (value != null) {
@@ -239,4 +271,73 @@ class HomePageState extends State<HomePage> {
       },
     ).then(_handleWorkValueChangedExternally);
   }
+  Future<bool> _showmydialog(){
+    return showCupertinoDialog<bool>(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text('事项名称'),
+          content: Card(
+            elevation: 0.0,
+            child: Column(
+              children: <Widget>[
+                // Text('this is a message'),
+                TextField(
+                  decoration: InputDecoration(
+                      hintText: '请输入事项',
+                      filled: true,
+                      fillColor: Colors.grey.shade50),
+                  controller: this._name,
+                  onSubmitted: (value) {
+                    this.setState(() {
+                      this._name.text = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('取消'),
+            ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+              child: Text('确定'),
+            ),
+          ],
+        );
+      });
+  }
+
+  // 弹出式对话框
+  // Future<bool> showDeleteConfirmDialog1() {
+  // return showDialog<bool>(
+  //   context: context,
+  //   builder: (context) {
+  //     return AlertDialog(
+  //       title: Text("提示"),
+  //       content: Text("您确定要删除当前文件吗?"),
+  //       actions: <Widget>[
+  //         FlatButton(
+  //           child: Text("取消"),
+  //           onPressed: () => Navigator.of(context).pop(), // 关闭对话框
+  //         ),
+  //         FlatButton(
+  //           child: Text("删除"),
+  //           onPressed: () {
+  //             //关闭对话框并返回true
+  //             Navigator.of(context).pop(true);
+  //           },
+  //         ),
+  //       ],
+  //     );
+  //   },
+  // );
+// }
 }
