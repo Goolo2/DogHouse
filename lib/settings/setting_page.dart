@@ -113,21 +113,20 @@ class _SettingsPageState extends State<SettingsPage> {
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: () {
                             Navigator.of(context).pushNamed(ChangeUsernamePage.tag).then((value) => setState((){}));
-//                            setState(() {});
                           },
                         ),
-                        _buildDivider(),
-                        ListTile(
-                          leading: Icon(
-                            Icons.location_on,
-                            color: Colors.purple,
-                          ),
-                          title: Text("Change Location"),
-                          trailing: Icon(Icons.keyboard_arrow_right),
-                          onTap: () {
-                            //open change location
-                          },
-                        ),
+//                        _buildDivider(),
+//                        ListTile(
+//                          leading: Icon(
+//                            Icons.location_on,
+//                            color: Colors.purple,
+//                          ),
+//                          title: Text("Change Location"),
+//                          trailing: Icon(Icons.keyboard_arrow_right),
+//                          onTap: () {
+//                            //open change location
+//                          },
+//                        ),
                       ],
                     ),
                   ),
