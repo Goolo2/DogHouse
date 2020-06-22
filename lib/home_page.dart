@@ -193,7 +193,7 @@ class HomePageState extends State<HomePage> {
     );
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Page1"),
+        title: new Text("DogHouse"),
       ),
       backgroundColor: Color.fromRGBO(50, 71, 85, 1),
       body: ListView(
