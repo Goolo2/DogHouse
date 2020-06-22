@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:doghouse/data.dart';
 import 'package:doghouse/settings/setting_page.dart';
-import 'package:doghouse/timer.dart';
 import 'package:doghouse/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,35 +32,6 @@ class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState()  => HomePageState();
 }
-
-//class Database{
-//  final FirebaseAuth _auth = FirebaseAuth.instance;
-//  DocumentSnapshot result;
-//  FirebaseUser user;
-//
-//  void update_datebase(int _time, String _tag) async {
-//    user = await _auth.currentUser();
-//    result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
-//    DateTime date = new DateTime.now();
-//    int time = _time;
-//    String tag = _tag;
-//    String len = result.data.length.toString()??0;
-//    TimeEntry t = TimeEntry(date, time, tag);
-//    Firestore.instance.collection("times").document(user.uid).updateData({
-//      "${len}": t.toJson(),
-//    });
-//    init_database();
-//  }
-//
-//  void init_database() async {
-//    user = await _auth.currentUser();
-//    result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
-//    HomePage.times.clear();
-//    for (String key in result.data.keys){
-//      HomePage.times.add(TimeEntry(result[key]["date"].toDate(), result[key]["time"], result[key]["tag"]));
-//    }
-//  }
-//}
 
 class HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;

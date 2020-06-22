@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:doghouse/timer/neu_progress_painter.dart';
 import 'package:doghouse/timer/screen.dart';
 import 'package:provider/provider.dart';
+import 'package:doghouse/home_page.dart';
 
 class NeuProgressPieBar extends StatelessWidget {
   final num timeset;
@@ -120,6 +121,7 @@ class _NeuStartButtonState extends State<NeuStartButton> {
     // 一定要放在build里来读取currentduration
     final currentDuration = Provider.of<TimerService>(context).currentDuration;
     var plustime;
+    bool flag = true;
     return Listener(
       // Listener监听触摸事件
       onPointerDown: (_) {
@@ -137,6 +139,7 @@ class _NeuStartButtonState extends State<NeuStartButton> {
         print("received timeset="+widget.timeset.toString());
         if (currentDuration.inSeconds>=widget.timeset){
           plustime=currentDuration.inSeconds-widget.timeset;
+          HomePageState().update_datebase(currentDuration.inSeconds, 'study', flag);
           Navigator.of(context).pop('加时'+plustime.toString()+'s');
         }
         else{

@@ -7,7 +7,6 @@ import 'package:doghouse/login_page.dart';
 import 'package:doghouse/data.dart';
 import 'package:doghouse/settings/setting_page.dart';
 import 'package:doghouse/settings/change_password.dart';
-import 'package:doghouse/timer.dart';
 import 'package:doghouse/timer/screen.dart';
 
 void main() => runApp(new MyApp());
