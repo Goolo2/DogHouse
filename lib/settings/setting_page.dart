@@ -190,7 +190,8 @@ class _SettingsPageState extends State<SettingsPage> {
               left: 00,
               child: IconButton(
                 icon: Icon(
-                  FontAwesomeIcons.powerOff,
+
+                  FontAwesomeIcons.signOutAlt,
                   color: Colors.white,
                 ),
                 onPressed: () {
