@@ -29,6 +29,7 @@ class HomePage extends StatefulWidget {
   static List<TimeEntry> times = List();
   static String username;
   static String email = '';
+  static String tagg = '';
   @override
   State<StatefulWidget> createState()  => HomePageState();
 }
@@ -125,6 +126,7 @@ class HomePageState extends State<HomePage> {
                         print("取消");
                       } else {
                         print(this._name.text);
+                        HomePage.tagg = this._name.text;
                         // 读取完清除值
                         this._name.clear();
                         print("确认");
