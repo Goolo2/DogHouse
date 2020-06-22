@@ -12,6 +12,7 @@ class NeuProgressPieBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     // percentage是当前经过的时间占1分钟的比例
     final percentage =
         Provider.of<TimerService>(context).currentDuration.inSeconds / timeset * 100;
@@ -71,7 +72,7 @@ class NeuProgressPieBar extends StatelessWidget {
                   color: Theme.of(context).backgroundColor,
                 ),
               ),
-              child: Center(child: NeuStartButton()),
+              child: Center(child: NeuStartButton(timeset: timeset)),
             ),
           ),
         ],
@@ -83,13 +84,16 @@ class NeuProgressPieBar extends StatelessWidget {
 class NeuStartButton extends StatefulWidget {
   final double bevel;
   final Offset blurOffset;
+  final num timeset;
 
   NeuStartButton({
     Key key,
     this.bevel = 10.0,
+    this.timeset,
   })  : this.blurOffset = Offset(bevel / 2, bevel / 2),
         super(key: key);
 
+  
   @override
   _NeuStartButtonState createState() => _NeuStartButtonState();
 }
@@ -97,7 +101,7 @@ class NeuStartButton extends StatefulWidget {
 class _NeuStartButtonState extends State<NeuStartButton> {
   bool _isPressed = false;
   bool _isRunning = false;
-
+  
   void _onPointerDown() {
     setState(() {
       _isPressed = true;
@@ -109,16 +113,35 @@ class _NeuStartButtonState extends State<NeuStartButton> {
       _isPressed = false;
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
+    // build在每一秒都会更新
+    // 一定要放在build里来读取currentduration
+    final currentDuration = Provider.of<TimerService>(context).currentDuration;
+    var plustime;
     return Listener(
+      // Listener监听触摸事件
       onPointerDown: (_) {
         _onPointerDown();
-        _isRunning
-            ? Provider.of<TimerService>(context, listen: false).stop()
-            : Provider.of<TimerService>(context, listen: false).start();
+        Provider.of<TimerService>(context, listen: false).stop();
+        // _isRunning
+        // // 利用Provider，根据isRunning的状态来调用TimerService中的函数
+        // // https://flutter.cn/docs/development/data-and-backend/state-mgmt/simple
+        //     ? Provider.of<TimerService>(context, listen: false).stop()
+        //     : Provider.of<TimerService>(context, listen: false).start();
         setState(() => _isRunning = !_isRunning);
+        // 打印当前经过的时间
+        // print("currentDuration="+currentDuration.toString());
+        print("currentDuration in seconds="+currentDuration.inSeconds.toString());
+        print("received timeset="+widget.timeset.toString());
+        if (currentDuration.inSeconds>=widget.timeset){
+          plustime=currentDuration.inSeconds-widget.timeset;
+          Navigator.of(context).pop('加时'+plustime.toString()+'s');
+        }
+        else{
+          Navigator.of(context).pop('提前结束');
+        }
       },
       onPointerUp: _onPointerUp,
       child: AnimatedContainer(
@@ -146,11 +169,14 @@ class _NeuStartButtonState extends State<NeuStartButton> {
         ),
         child: Center(
             child: Icon(
-          _isRunning ? Icons.stop : Icons.play_arrow,
+          // 改变图标，开始/暂停
+          Icons.stop,
+          // _isRunning ? Icons.stop : Icons.play_arrow,
           size: 60,
-          color: _isRunning
-              ? Colors.redAccent.shade400
-              : Colors.greenAccent.shade400,
+          color: Colors.redAccent.shade400
+          // color: _isRunning
+          //     ? Colors.redAccent.shade400
+          //     : Colors.greenAccent.shade400,
         )),
       ),
     );

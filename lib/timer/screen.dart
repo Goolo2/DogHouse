@@ -20,16 +20,15 @@ class TimerScreen extends StatelessWidget {
   // final arguments;
   // TimerScreen({this.arguments});
   // 获取路由参数
-  bool flag = false;
+  
   @override
   Widget build(BuildContext context) {
     // 只有在build里这样传才有用
     var arguments=ModalRoute.of(context).settings.arguments;
-//    print(arguments);
-//    Database().update_datebase(arguments, 'study');
-    HomePageState().update_datebase(arguments, 'study', flag);
-    flag = !flag;
+    print(arguments);
     final timeService = TimerService();
+    timeService.start();
+    // ChangeNotifierProvider放在最高级别来监听
     return ChangeNotifierProvider<TimerService>(
       create: (_) => timeService,
       child: Scaffold(
@@ -44,7 +43,7 @@ class TimerScreen extends StatelessWidget {
               SizedBox(height: 10),
               NeuProgressPieBar(timeset:arguments!=null?arguments:60),
               SizedBox(height: 5),
-              NeuResetButton(),
+              // NeuResetButton(),
             ],
           ),
         ),
@@ -81,7 +80,6 @@ class TimerService extends ChangeNotifier {
   Duration _currentDuration = Duration.zero;
 
   bool get isRunning => _timer != null;
-
   TimerService() {
     _watch = Stopwatch();
   }
@@ -90,12 +88,13 @@ class TimerService extends ChangeNotifier {
     _currentDuration = _watch.elapsed;
 
     // notify all listening widgets
+    // 所有在监听的model都会rebuild
     notifyListeners();
   }
 
   void start() {
     if (_timer != null) return;
-
+    // Duration设置以一秒为周期，调用ontick，更新currentduration
     _timer = Timer.periodic(Duration(seconds: 1), _onTick);
     _watch.start();
 
@@ -107,7 +106,7 @@ class TimerService extends ChangeNotifier {
     _timer = null;
     _watch.stop();
     _currentDuration = _watch.elapsed;
-
+    
     notifyListeners();
   }
 

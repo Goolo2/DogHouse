@@ -136,25 +136,20 @@ class HomePageState extends State<HomePage> {
         MediaQuery.of(context).platformBrightness;
     bool isDark = brightnessValue == Brightness.dark;
 
-
-    return  Scaffold(appBar: AppBar(title: Text("Home"),),
-      body:
-        new Center(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                    width: 60,
-                    height: 10,
-                    child:new RaisedButton(
+    Widget startbutton=Container(
+      padding: const EdgeInsets.fromLTRB(135,110,135,20.0),
+      child: new RaisedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue );
-                      // Navigator.of(context).pushNamed('Neumor', arguments: {width: 50,height: 100,value: 0.5,text: 'Mon',});
+                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) {
+                        if (value!=null){
+                          print("=========\n"+value.toString()+"\n==========");
+                        }
+                      });
+                      // Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue )
                     },
                     shape:RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(35))),
-                    color: Colors.red,
+                    color: Colors.white,
                     // child: new Text("开始饲养"),
                     // highlightColor: Colors.lightBlue,
                     child: Container(
@@ -163,35 +158,49 @@ class HomePageState extends State<HomePage> {
                       width: MediaQuery.of(context).size.width * .2,
                       child: Text('开始饲养'),
                       ),
-                  ),
-                ),
-                flex:1, 
-              ),
-              Expanded(
-                child: Container(
-                  width: 30,
-                  height: 30,
-                  child: RawMaterialButton(
-                    shape: new CircleBorder(),
+                  )
+    );
+    Widget showtime=Container(
+      padding: const EdgeInsets.fromLTRB(120,50,120,10),
+      child: RawMaterialButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(35))),
                     onPressed: _showWorkSessionDialog,
-                    fillColor: (isDark)
-                        ? Color.fromRGBO(92, 211, 62, 1)
-                        : Color.fromRGBO(242, 62, 60, 1),
+                    // fillColor: (isDark)
+                    //     ? Color.fromRGBO(92, 211, 62, 1)
+                    //     : Color.fromRGBO(242, 62, 60, 1),
+                    fillColor: Color.fromRGBO(50, 71, 85, 1),
                     elevation: 0,
                     child: Text(
                       "$_workSessionValue",
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 80,
                           fontWeight: FontWeight.w500),
                     ),
                   ),
-                ),
-                flex: 1,
-              ),
-            ],
-          )
+    );
+    Widget thedog=Container(
+      padding: const EdgeInsets.fromLTRB(45,30,45,0),
+      child: CircleAvatar(
+        backgroundImage: AssetImage(
+          'images/logo.png',
         ),
+        // maxRadius: 200,
+        radius: 150,
+      )
+    );
+    return  Scaffold(
+      appBar: AppBar(title: Text("Home"),),
+      backgroundColor: Color.fromRGBO(50, 71, 85, 1),
+      body:
+        ListView(
+        children: [
+          showtime,
+          thedog,
+          startbutton,
+        ],
+      ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -238,12 +247,13 @@ class HomePageState extends State<HomePage> {
         ),
       ),);
   }
-    _handleWorkValueChangedExternally(num value) {
+   _handleWorkValueChangedExternally(num value) {
     if (value != null) {
       setState(() {
         _workSessionValue = value;
       });
-      integerNumberPicker.animateInt(value);
+      // 下面这个好像是用来设置动画的，不注释掉会报错，但是依然能运行
+      // integerNumberPicker.animateInt(value);
     }
   }
   _showWorkSessionDialog() {
@@ -252,9 +262,9 @@ class HomePageState extends State<HomePage> {
       builder: (BuildContext context) {
         return new NumberPickerDialog.integer(
           minValue: 0,
-          maxValue: 50,
+          maxValue: 60,
           initialIntegerValue: _workSessionValue,
-          title: Text("Select a minute"),
+          title: Text("选择时长(s)"),
         );
       },
     ).then(_handleWorkValueChangedExternally);
