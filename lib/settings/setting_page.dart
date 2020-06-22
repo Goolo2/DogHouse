@@ -111,10 +111,8 @@ class _SettingsPageState extends State<SettingsPage> {
                           title: Text("修改用户名"),
                           trailing: Icon(Icons.keyboard_arrow_right),
                           onTap: () {
-                            Navigator.of(context).pushNamed(ChangeUsernamePage.tag);
-                            setState(() {
-                              initState();build(context);
-                            });
+                            Navigator.of(context).pushNamed(ChangeUsernamePage.tag).then((value) => setState((){}));
+//                            setState(() {});
                           },
                         ),
                         _buildDivider(),

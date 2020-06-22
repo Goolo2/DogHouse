@@ -28,7 +28,7 @@ class TimeEntry{
 class HomePage extends StatefulWidget {
   static String tag = 'home-page';
   static List<TimeEntry> times = List();
-  static String username = '';
+  static String username;
   static String email = '';
   @override
   State<StatefulWidget> createState()  => HomePageState();
@@ -106,7 +106,7 @@ class HomePageState extends State<HomePage> {
 
   void init_database() async {
     user = await _auth.currentUser();
-    result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
+    result = await Firestore.instance.collection("times").document(user.uid).get();
     HomePage.times.clear();
     for (String key in result.data.keys){
       HomePage.times.add(TimeEntry(result[key]["date"].toDate(), result[key]["time"], result[key]["tag"]));
@@ -126,7 +126,7 @@ class HomePageState extends State<HomePage> {
     }
 //    update_datebase(10, 'study');
     Widget userHeader =  UserAccountsDrawerHeader(
-      accountName: new Text("${user?.displayName}"),
+      accountName: new Text(HomePage.username == null ?("$user?.displayName"):HomePage.username),
       accountEmail: new Text("${user?.email}"),
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/logo.png'), radius: 35.0,),);
@@ -230,10 +230,9 @@ class HomePageState extends State<HomePage> {
               leading: new CircleAvatar(
                 child: new Icon(Icons.settings),),
               onTap: () {
-                Navigator.of(context).pushNamed(SettingsPage.tag);
-                setState(() {
-                  initState(); build(context);
-                });
+                Navigator.of(context).pushNamed(SettingsPage.tag).then((value) => setState(() {
+                }));
+
               },),
           ],
         ),

@@ -185,7 +185,7 @@ void dispose() {
               controller: _newUsernameController,
               focusNode: _focusNodeNewUsername,
               //设置键盘类型
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: "用户名",
                 hintText: "请输入新用户名",
@@ -212,7 +212,6 @@ void dispose() {
       ),
     );
 
-    // 登录按钮区域
     Widget loginButtonArea = new Container(
       margin: EdgeInsets.only(left: 20,right: 20),
       height: 45.0,
@@ -235,7 +234,9 @@ void dispose() {
             // connect database
             if (HomePage.username == _newUsername) oldNewUsernameSameAlertDialog();
             else
-              confirmChangeUsernameDialog(_newUsername);
+              confirmChangeUsernameDialog(_newUsername);setState(() {
+
+              });
           }
 
         },
