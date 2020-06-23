@@ -8,6 +8,7 @@ import 'package:doghouse/data.dart';
 import 'package:doghouse/settings/setting_page.dart';
 import 'package:doghouse/settings/change_password.dart';
 import 'package:doghouse/timer/screen.dart';
+import 'package:doghouse/gouwo.dart';
 
 void main() => runApp(new MyApp());
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
     SettingsPage.tag: (content) => SettingsPage(),
     ChangePasswordPage.tag: (content) => ChangePasswordPage(),
     ChangeUsernamePage.tag: (content) => ChangeUsernamePage(),
+    GouPage.tag: (content) => GouPage(),
   };
 
   @override

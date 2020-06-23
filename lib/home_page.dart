@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:doghouse/timer/screen.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:doghouse/timer/neumorphic_bar.dart';
+import 'package:doghouse/gouwo.dart';
 
 class TimeEntry{
   DateTime date;
@@ -217,7 +218,7 @@ class HomePageState extends State<HomePage> {
             ListTile(title: Text('我的狗窝'),
               leading: new CircleAvatar(child: new Icon(Icons.sd_storage),),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).pushNamed(GouPage.tag);
               },),
             ListTile(title: Text('数据统计'),
               leading: new CircleAvatar(
