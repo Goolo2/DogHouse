@@ -8,12 +8,14 @@ import 'package:doghouse/data.dart';
 import 'package:doghouse/settings/setting_page.dart';
 import 'package:doghouse/settings/change_password.dart';
 import 'package:doghouse/timer/screen.dart';
+import 'package:doghouse/store/manydogs.dart';
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
   //routes需要Map<String, WidgetBuilder>类型参数，所以这里定义了一个这个类型的常量，将刚才两个页面添加进去
   final routes = <String, WidgetBuilder> {
+    StorePage.tag: (context) => StorePage(),
     DataPage.tag: (content) => DataPage(),
     LoginPage.tag: (context) => LoginPage(),
     HomePage.tag: (context) => HomePage(),

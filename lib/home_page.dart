@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:doghouse/timer/screen.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:doghouse/timer/neumorphic_bar.dart';
+import 'package:doghouse/store/manydogs.dart';
 
 class TimeEntry{
   DateTime date;
@@ -234,7 +235,7 @@ class HomePageState extends State<HomePage> {
               leading: new CircleAvatar(
                 child: new Icon(Icons.list),),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).pushNamed(StorePage.tag);
               },),
             ListTile(title: Text('设置'),
               leading: new CircleAvatar(
