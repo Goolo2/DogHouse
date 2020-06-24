@@ -23,12 +23,14 @@ class TimeEntry{
   DateTime date;
   int time;
   String tag;
-  TimeEntry(this.date, this.time, this.tag);
+  int coins;
+  TimeEntry(this.date, this.time, this.tag, this.coins);
   toJson(){
     return{
       "date": date,
       "time": time,
-      "tag": tag
+      "tag": tag,
+      "coins": coins,
     };
   }
 }
@@ -61,6 +63,7 @@ class HomePageState extends State<HomePage> {
   }
 
   initUser() async {
+    print('初始化user');
     user = await _auth.currentUser();
     result = await Firestore.instance.collection("times").document(user.uid).get();
     DocumentSnapshot propertyResult = await Firestore.instance.collection("users").document(user.uid).get();
@@ -80,21 +83,26 @@ class HomePageState extends State<HomePage> {
     initUser();
   }
 
-  void update_datebase(int _time, String _tag, bool flag) async {
+  void update_datebase(int _time, String _tag, int coins, bool flag) async {
     if(flag==false){
       return;
     }
     else{
+      print('获得金币数量: $coins');
       user = await _auth.currentUser();
       result = await Firestore.instance.collection("times").document(user.uid).get();
       DateTime date = new DateTime.now();
       int time = _time;
       String tag = _tag;
       String len = result.data.length.toString()??0;
-      TimeEntry t = TimeEntry(date, time, tag);
+      TimeEntry t = TimeEntry(date, time, tag, coins);
       Firestore.instance.collection("times").document(user.uid).updateData({
         "${len}": t.toJson(),
       });
+      Property.coins = Property.coins + coins;
+      FirebaseAuth.instance.currentUser()
+          .then((currentUser) => Firestore.instance.collection("users")
+          .document(currentUser.uid).updateData({"coins":Property.coins}));
       await init_database();
     }
   }
@@ -104,7 +112,7 @@ class HomePageState extends State<HomePage> {
     result = await Firestore.instance.collection("times").document(user.uid).get();
     HomePage.times.clear();
     for (String key in result.data.keys){
-      HomePage.times.add(TimeEntry(result[key]["date"].toDate(), result[key]["time"], result[key]["tag"]));
+      HomePage.times.add(TimeEntry(result[key]["date"].toDate(), result[key]["time"], result[key]["tag"], result[key]["coins"],));
     }
   }
 

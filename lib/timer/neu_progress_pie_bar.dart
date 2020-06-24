@@ -139,11 +139,14 @@ class _NeuStartButtonState extends State<NeuStartButton> {
         print("received timeset="+widget.timeset.toString());
         if (currentDuration.inSeconds>=widget.timeset){
           plustime=currentDuration.inSeconds-widget.timeset;
+          int coins = (widget.timeset + plustime * 1.2).round();
+          int beyondTwoHour = currentDuration.inSeconds - 120;
+          coins = (beyondTwoHour > 0)?(coins - beyondTwoHour*1.2).round():coins;
           if (HomePage.tagg != ""){
-            HomePageState().update_datebase(currentDuration.inSeconds, HomePage.tagg, flag);
+            HomePageState().update_datebase(currentDuration.inSeconds, HomePage.tagg, coins, flag);
           }
           else{
-            HomePageState().update_datebase(currentDuration.inSeconds, 'study', flag);
+            HomePageState().update_datebase(currentDuration.inSeconds, 'study', coins, flag);
           }
           Navigator.of(context).pop('加时'+plustime.toString()+'s');
         }
