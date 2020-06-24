@@ -84,7 +84,6 @@ class _StorePageState extends State<StorePage> {
   }
 
   void insufficientCoinsAlertDialog(int money) {
-    print("咋回事");
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -95,7 +94,7 @@ class _StorePageState extends State<StorePage> {
             content: new SingleChildScrollView(
               child: new ListBody(
                 children: <Widget>[
-                  new Text("当前金币数量仅$money, 不够哦！\n快去多多饲养吧"),
+                  new Text("当前金币数量仅 $money, 不够哦！\n快去多多饲养吧"),
                 ],
               ),
             ),
@@ -171,7 +170,6 @@ class _StorePageState extends State<StorePage> {
     if (Property.dogsIdSet.contains(product.id)){
     } else {
       if (Property.coins < product.price){
-        print("缺钱");
         insufficientCoinsAlertDialog(Property.coins);
       } else {
         Property.coins = Property.coins - product.price;
