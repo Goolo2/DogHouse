@@ -4,9 +4,13 @@ import 'package:doghouse/store/dogmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+class StorePage extends StatefulWidget {
+  static String tag = 'Store-page';
+  @override
+  _StorePageState createState() => _StorePageState();
+}
 
-class StorePage extends StatelessWidget {
-  static String tag='Store-Page';
+class _StorePageState extends State<StorePage> {
   List<Product> _products = [
     Product(
         id: 1,
@@ -45,6 +49,69 @@ class StorePage extends StatelessWidget {
         imgUrl: "https://img.icons8.com/cotton/64/000000/dog-sit--v1.png",
         qty: 1),
   ];
+
+  void confirmPurchaseDialog(product) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: new Text('提示'),
+            //可滑动
+            content: new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  new Text('确认要解锁本汪吗？'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('确认'),
+                onPressed: () {
+                  addProduct(product);
+                  //Navigator.of(context).pop();
+                },
+              ),
+              new FlatButton(
+                child: new Text('取消'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  void insufficientCoinsAlertDialog(int money) {
+    print("咋回事");
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            title: new Text('提示'),
+            //可滑动
+            content: new SingleChildScrollView(
+              child: new ListBody(
+                children: <Widget>[
+                  new Text("当前金币数量仅$money, 不够哦！\n快去多多饲养吧"),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('确定'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+              ),
+
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +157,7 @@ class StorePage extends StatelessWidget {
                   // ),
               OutlineButton(
                     child: Text(Property.dogsIdSet.contains(_products[index].id)?"已解锁":"Add"),
-                    onPressed: () {addProduct(_products[index]);})
+                    onPressed: () {confirmPurchaseDialog(_products[index]);})
             ])); 
           // }
         // );
@@ -98,14 +165,30 @@ class StorePage extends StatelessWidget {
       ),
     );
   }
+
   void addProduct(product) {
     print(product.title);
-    Property.coins = Property.coins - product.price;
-    Property.dogsIdSet.add(product.id);
-    FirebaseAuth.instance.currentUser()
-        .then((currentUser) => Firestore.instance.collection("users")
-        .document(currentUser.uid).updateData({"coins":Property.coins, "dogsIdSet": Property.dogsIdSet}));
+    if (Property.dogsIdSet.contains(product.id)){
+    } else {
+      if (Property.coins < product.price){
+        print("缺钱");
+        insufficientCoinsAlertDialog(Property.coins);
+      } else {
+        Property.coins = Property.coins - product.price;
+        Property.dogsIdSet.add(product.id);
+        Property.dogsIdSet.toSet().toList();
+        print(Property.dogsIdSet);
+        FirebaseAuth.instance.currentUser()
+            .then((currentUser) =>
+            Firestore.instance.collection("users")
+                .document(currentUser.uid).updateData(
+                {"coins": Property.coins, "dogsIdSet": Property.dogsIdSet}));
+        Navigator.of(context).pop();
+        setState(() {});
+      }
+    }
   }
+
 }
 
 

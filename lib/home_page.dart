@@ -72,6 +72,7 @@ class HomePageState extends State<HomePage> {
     for (dynamic id in propertyResult.data["dogsIdSet"]) {
       Property.dogsIdSet.add(id as int);
     }
+    Property.dogsIdSet.toSet().toList();
     setState(() {});
     HomePage.username = user.displayName;
     HomePage.email = user.email;
