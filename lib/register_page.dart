@@ -381,6 +381,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       "uid": currentUser.uid,
                       "username": _username,
                       "accountNumber": _accountNumber,
+                      "gold_coins": 0,
+                      "property": "cs",
               }).then((result) => setDisplayUserName()
 //              {
 //                setDisplayUserName();

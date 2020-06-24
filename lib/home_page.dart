@@ -11,6 +11,13 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:doghouse/timer/neumorphic_bar.dart';
 import 'package:doghouse/gouwo.dart';
 
+class Property {
+  int gold_coins;
+  List <int> dogs_id;
+
+  Property(this.gold_coins, this.dogs_id);
+}
+
 class TimeEntry{
   DateTime date;
   int time;
