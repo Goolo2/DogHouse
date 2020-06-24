@@ -156,7 +156,11 @@ class _StorePageState extends State<StorePage> {
                   // ),
               OutlineButton(
                     child: Text(Property.dogsIdSet.contains(_products[index].id)?"已解锁":"Add"),
-                    onPressed: () {confirmPurchaseDialog(_products[index]);})
+                    onPressed: () {
+                      if (Property.dogsIdSet.contains(_products[index].id)) {
+                      } else {
+                        confirmPurchaseDialog(_products[index]);
+                      }})
             ])); 
           // }
         // );
