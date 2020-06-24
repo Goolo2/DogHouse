@@ -10,6 +10,8 @@ import 'package:doghouse/timer/screen.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:doghouse/timer/neumorphic_bar.dart';
 import 'package:doghouse/store/manydogs.dart';
+import 'package:doghouse/gouwo.dart';
+
 
 class TimeEntry{
   DateTime date;
@@ -30,6 +32,7 @@ class HomePage extends StatefulWidget {
   static List<TimeEntry> times = List();
   static String username;
   static String email = '';
+  static String tagg = '';
   @override
   State<StatefulWidget> createState()  => HomePageState();
 }
@@ -126,6 +129,7 @@ class HomePageState extends State<HomePage> {
                         print("取消");
                       } else {
                         print(this._name.text);
+                        HomePage.tagg = this._name.text;
                         // 读取完清除值
                         this._name.clear();
                         print("确认");
@@ -192,7 +196,7 @@ class HomePageState extends State<HomePage> {
     );
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Page1"),
+        title: new Text("DogHouse"),
       ),
       backgroundColor: Color.fromRGBO(50, 71, 85, 1),
       body: ListView(
@@ -216,7 +220,7 @@ class HomePageState extends State<HomePage> {
             ListTile(title: Text('我的狗窝'),
               leading: new CircleAvatar(child: new Icon(Icons.sd_storage),),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).pushNamed(GouPage.tag);
               },),
             ListTile(title: Text('数据统计'),
               leading: new CircleAvatar(
