@@ -9,14 +9,15 @@ import 'package:flutter/rendering.dart';
 import 'package:doghouse/timer/screen.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:doghouse/timer/neumorphic_bar.dart';
+import 'package:doghouse/store/manydogs.dart';
 import 'package:doghouse/gouwo.dart';
 
-class Property {
-  int gold_coins;
-  List <int> dogs_id;
 
-  Property(this.gold_coins, this.dogs_id);
+class Property {
+  static int coins;
+  static List <int> dogsIdSet = List();
 }
+
 
 class TimeEntry{
   DateTime date;
@@ -58,9 +59,16 @@ class HomePageState extends State<HomePage> {
 
     });
   }
+
   initUser() async {
     user = await _auth.currentUser();
-    result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
+    result = await Firestore.instance.collection("times").document(user.uid).get();
+    DocumentSnapshot propertyResult = await Firestore.instance.collection("users").document(user.uid).get();
+    Property.coins = propertyResult.data["coins"];
+    Property.dogsIdSet.clear();
+    for (dynamic id in propertyResult.data["dogsIdSet"]) {
+      Property.dogsIdSet.add(id as int);
+    }
     setState(() {});
     HomePage.username = user.displayName;
     HomePage.email = user.email;
@@ -78,7 +86,7 @@ class HomePageState extends State<HomePage> {
     }
     else{
       user = await _auth.currentUser();
-      result = await Firestore.instance.collection("times").document(user.uid).get() as DocumentSnapshot;
+      result = await Firestore.instance.collection("times").document(user.uid).get();
       DateTime date = new DateTime.now();
       int time = _time;
       String tag = _tag;
@@ -106,7 +114,8 @@ class HomePageState extends State<HomePage> {
 //      Database().init_database();
       init_database();
     }
-//    update_datebase(10, 'study');
+    print("coins: ");print(Property.coins);
+    print("dogsIdSet: ");print(Property.dogsIdSet);
     Widget userHeader =  UserAccountsDrawerHeader(
       accountName: new Text(HomePage.username == null ?("$user?.displayName"):HomePage.username),
       accountEmail: new Text("${user?.email}"),
@@ -244,7 +253,7 @@ class HomePageState extends State<HomePage> {
               leading: new CircleAvatar(
                 child: new Icon(Icons.list),),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).pushNamed(StorePage.tag);
               },),
             ListTile(title: Text('设置'),
               leading: new CircleAvatar(

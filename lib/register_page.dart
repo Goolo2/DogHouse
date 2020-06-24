@@ -87,6 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _userNameController.dispose();
     super.dispose();
   }
+
   void setDisplayUserName() async{
     FirebaseUser user;
     user = await FirebaseAuth.instance.currentUser();
@@ -239,7 +240,7 @@ class _RegisterPageState extends State<RegisterPage> {
               controller: _userNameController,
               focusNode: _focusNodeUserName,
               //设置键盘类型
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: "用户名",
                 hintText: "请输入用户名",
@@ -370,7 +371,8 @@ class _RegisterPageState extends State<RegisterPage> {
             if(_password == _confirm_password) {
               // connect database
               print('Account number: $_accountNumber');
-              FirebaseUser user;
+              Property.coins = 0;
+              Property.dogsIdSet.add(1);
               FirebaseAuth.instance
                   .createUserWithEmailAndPassword(
                     email: _accountNumber, password: _password)
@@ -381,8 +383,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       "uid": currentUser.uid,
                       "username": _username,
                       "accountNumber": _accountNumber,
-                      "gold_coins": 0,
-                      "property": "cs",
+                      "coins": Property.coins,
+                      "dogsIdSet": Property.dogsIdSet,
               }).then((result) => setDisplayUserName()
 //              {
 //                setDisplayUserName();
