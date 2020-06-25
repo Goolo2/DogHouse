@@ -25,6 +25,7 @@ class _FriendsPageState extends State<FriendsPage> {
     setState(() {
       isLoading = true;
     });
+    data.clear();
     for (String friend in Property.friends) {
       print("朋友: $friend");
       DocumentSnapshot frinedTimes = await Firestore.instance.collection(
@@ -55,6 +56,8 @@ class _FriendsPageState extends State<FriendsPage> {
         "dogs": friendUnlockedDogsNumber,
       });
     }
+    data.sort((a, b) => b["totalTime"].compareTo(a["totalTime"]));
+    //data.sort((a, b) => a.totalTime.compareTo(b.totalTime));
     print(data);
 
     setState(() {
@@ -119,17 +122,25 @@ class _FriendsPageState extends State<FriendsPage> {
                       Property.friends.add(this._friend.text);
                       List friendFriends = [];
                       friendFriends = friendProperty.data["friends"];
-                      friendFriends.add(HomePage.email);
+                      print(friendFriends);
+                      friendFriends.add(HomePage.email);print(friendFriends);
                       Firestore.instance.collection("users")
                           .document(HomePage.email).updateData(
                           {"friends": Property.friends});
                       Firestore.instance.collection("users")
-                          .document().updateData(
+                          .document(_friend.text).updateData(
                           {"friends": friendFriends});
                       // 读取完清除值
                       this._friend.clear();
+                      setState(() {
+
+                      });
+                      //Navigator.of(context).pushNamed(FriendsPage.tag);
+                      //Navigator.of(context).pop();
+                      setState(() {
+                        getJson();
+                      });
                       print("确认");
-                      setState(() {});
                     }
                   }
                 }

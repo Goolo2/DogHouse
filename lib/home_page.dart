@@ -56,12 +56,6 @@ class HomePageState extends State<HomePage> {
   int _workSessionValue = 25;
 
 
-  void fresh() {
-    setState(() {
-
-    });
-  }
-
   initUser() async {
     print('初始化user');
     user = await _auth.currentUser();
