@@ -114,7 +114,19 @@ class _NeuStartButtonState extends State<NeuStartButton> {
       _isPressed = false;
     });
   }
-  
+
+  void update(int second, int coins, bool flag, String plus) async {
+    if (HomePage.tagg != ""){
+      await HomePageState().update_datebase(second, HomePage.tagg, coins, flag);
+      setState(() {});
+    }
+    else{
+      await HomePageState().update_datebase(second, 'study', coins, flag);
+      setState(() {});
+    }
+    Navigator.of(context).pop('加时'+plus+'s');
+  }
+
   @override
   Widget build(BuildContext context) {
     // build在每一秒都会更新
@@ -142,16 +154,21 @@ class _NeuStartButtonState extends State<NeuStartButton> {
           int coins = (widget.timeset + plustime * 1.2).round();
           int beyondTwoHour = currentDuration.inSeconds - 120;
           coins = (beyondTwoHour > 0)?(coins - beyondTwoHour*1.2).round():coins;
-          if (HomePage.tagg != ""){
-            HomePageState().update_datebase(currentDuration.inSeconds, HomePage.tagg, coins, flag);
-//            setState(() {});
-          }
-          else{
-            HomePageState().update_datebase(currentDuration.inSeconds, 'study', coins, flag);
-//            setState(() {});
-          }
-          Navigator.of(context).pop('加时'+plustime.toString()+'s');
-          setState(() {});
+
+          update(currentDuration.inSeconds, coins, flag, plustime.toString());
+//          if (HomePage.tagg != ""){
+//            HomePageState().update_datebase(currentDuration.inSeconds, HomePage.tagg, coins, flag);
+////            HomePageState().build(context);
+////            setState(() {});
+//          }
+//          else{
+//            HomePageState().update_datebase(currentDuration.inSeconds, 'study', coins, flag);
+////            HomePageState().build(context);
+////            setState(() {});
+//          }
+//          HomePageState().build(context);
+//          Navigator.of(context).pop('加时'+plustime.toString()+'s');
+//          setState(() {});
         }
         else{
           Navigator.of(context).pop('提前结束');

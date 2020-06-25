@@ -11,6 +11,15 @@ import 'package:doghouse/store/manydogs.dart';
 import 'package:doghouse/gouwo.dart';
 import 'package:doghouse/friends_page.dart';
 
+class coin with ChangeNotifier{
+  int _coin = 0;
+  int get value => _coin;
+
+  void incre(int inc){
+    _coin += inc;
+    notifyListeners();
+  }
+}
 
 class Property {
   static int coins;
@@ -75,6 +84,7 @@ class HomePageState extends State<HomePage> {
     HomePage.username = user.displayName;
     HomePage.email = user.email;
   }
+
   @override
   void initState() {
     super.initState();
@@ -99,6 +109,7 @@ class HomePageState extends State<HomePage> {
         "${len}": t.toJson(),
       });
       Property.coins = Property.coins + coins;
+//      print("添加后："); print(Property.coins);
       FirebaseAuth.instance.currentUser()
           .then((currentUser) => Firestore.instance.collection("users")
           .document(currentUser.email).updateData({"coins": Property.coins}));
@@ -118,7 +129,6 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (result != null ){
-//      Database().init_database();
       init_database();
     }
     print("coins: ");print(Property.coins);
@@ -175,45 +185,16 @@ class HomePageState extends State<HomePage> {
       ),
     );
 
-//    Widget settask=Container(
-//      padding: const EdgeInsets.fromLTRB(320,20,0,20.0),
-//      child: IconButton(
-//                    icon:Icon(Icons.chat_bubble,size: 30,),
-//                    // shape:RoundedRectangleBorder(
-//                      // borderRadius: BorderRadius.all(Radius.circular(35))),
-//                    color: Colors.white,
-//                    onPressed: () async {
-//                      //弹出对话框并等待其关闭，异步
-//                      bool delete = await _showmydialog();
-//                      if (delete == null) {
-//                        this._name.text=null;
-//                        this._name.clear();
-//                        print("取消");
-//                      } else {
-//                        print(this._name.text);
-//                        HomePage.tagg = this._name.text;
-//                        // 读取完清除值
-//                        this._name.clear();
-//                        print("确认");
-//                        //... 删除文件
-//                      }
-//                    },
-//                    // fillColor: Color.fromRGBO(242, 62, 60, 1),
-//                    // elevation: 0,
-//                  ),
-//    );
-
     Widget startbutton=Container(
       padding: const EdgeInsets.fromLTRB(135,20,135,20.0),
       child: new RaisedButton(
                     onPressed: () {
-//                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) {
-//                        if (value!=null){
-//                          print("=========\n"+value.toString()+"\n==========");
-//                        }
-//                      });
-                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) => setState(() {
-                      }));
+                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) {
+//                          print("当前coins:"); print(Property.coins);
+                          setState(() {});
+                      });
+//                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) => setState(() {}));
+
                       // Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue )
                     },
                     shape:RoundedRectangleBorder(
