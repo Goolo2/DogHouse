@@ -2,15 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:doghouse/data.dart';
 import 'package:doghouse/settings/setting_page.dart';
-import 'package:doghouse/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:doghouse/timer/screen.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:doghouse/timer/neumorphic_bar.dart';
 import 'package:doghouse/store/manydogs.dart';
 import 'package:doghouse/gouwo.dart';
+import 'package:doghouse/friends_page.dart';
 
 
 class Property {
@@ -262,13 +261,15 @@ class HomePageState extends State<HomePage> {
               leading: new CircleAvatar(
                 child: new Icon(Icons.people),),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.of(context).pushNamed(FriendsPage.tag).then((value) => setState(() {
+                }));
               },),
             ListTile(title: Text('商店'),
               leading: new CircleAvatar(
                 child: new Icon(Icons.list),),
               onTap: () {
-                Navigator.of(context).pushNamed(StorePage.tag);
+                Navigator.of(context).pushNamed(StorePage.tag).then((value) => setState(() {
+                }));
               },),
             ListTile(title: Text('设置'),
               leading: new CircleAvatar(
@@ -276,7 +277,6 @@ class HomePageState extends State<HomePage> {
               onTap: () {
                 Navigator.of(context).pushNamed(SettingsPage.tag).then((value) => setState(() {
                 }));
-
               },),
           ],
         ),
