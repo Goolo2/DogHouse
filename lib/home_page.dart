@@ -135,42 +135,85 @@ class HomePageState extends State<HomePage> {
         MediaQuery.of(context).platformBrightness;
     bool isDark = brightnessValue == Brightness.dark;
 
-    Widget settask=Container(
-      padding: const EdgeInsets.fromLTRB(320,20,0,20.0),
-      child: IconButton(
-                    icon:Icon(Icons.chat_bubble,size: 30,),
-                    // shape:RoundedRectangleBorder(
-                      // borderRadius: BorderRadius.all(Radius.circular(35))),
+    Widget coin=Container(
+      child: new Row(
+//        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                new Image.asset('images/coin.png'),
+                Text("${Property.coins}",
+                  style: TextStyle(
                     color: Colors.white,
-                    onPressed: () async {
-                      //弹出对话框并等待其关闭，异步
-                      bool delete = await _showmydialog();
-                      if (delete == null) {
-                        this._name.text=null;
-                        this._name.clear();
-                        print("取消");
-                      } else {
-                        print(this._name.text);
-                        HomePage.tagg = this._name.text;
-                        // 读取完清除值
-                        this._name.clear();
-                        print("确认");
-                        //... 删除文件
-                      }
-                    },
-                    // fillColor: Color.fromRGBO(242, 62, 60, 1),
-                    // elevation: 0,
-                  ),
+                    fontSize: 30,
+                  ),),
+              ],
+            ),
+            IconButton(
+              icon:Icon(Icons.chat_bubble,size: 30,),
+              color: Colors.white,
+              onPressed: () async {
+                //弹出对话框并等待其关闭，异步
+                bool delete = await _showmydialog();
+                if (delete == null) {
+                  this._name.text=null;
+                  this._name.clear();
+                  print("取消");
+                } else {
+                  print(this._name.text);
+                  HomePage.tagg = this._name.text;
+                  // 读取完清除值
+                  this._name.clear();
+                  print("确认");
+                  //... 删除文件
+                }
+              },
+            ),
+          ]
+      ),
     );
+
+//    Widget settask=Container(
+//      padding: const EdgeInsets.fromLTRB(320,20,0,20.0),
+//      child: IconButton(
+//                    icon:Icon(Icons.chat_bubble,size: 30,),
+//                    // shape:RoundedRectangleBorder(
+//                      // borderRadius: BorderRadius.all(Radius.circular(35))),
+//                    color: Colors.white,
+//                    onPressed: () async {
+//                      //弹出对话框并等待其关闭，异步
+//                      bool delete = await _showmydialog();
+//                      if (delete == null) {
+//                        this._name.text=null;
+//                        this._name.clear();
+//                        print("取消");
+//                      } else {
+//                        print(this._name.text);
+//                        HomePage.tagg = this._name.text;
+//                        // 读取完清除值
+//                        this._name.clear();
+//                        print("确认");
+//                        //... 删除文件
+//                      }
+//                    },
+//                    // fillColor: Color.fromRGBO(242, 62, 60, 1),
+//                    // elevation: 0,
+//                  ),
+//    );
+
     Widget startbutton=Container(
       padding: const EdgeInsets.fromLTRB(135,20,135,20.0),
       child: new RaisedButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) {
-                        if (value!=null){
-                          print("=========\n"+value.toString()+"\n==========");
-                        }
-                      });
+//                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) {
+//                        if (value!=null){
+//                          print("=========\n"+value.toString()+"\n==========");
+//                        }
+//                      });
+                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) => setState(() {
+                      }));
                       // Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue )
                     },
                     shape:RoundedRectangleBorder(
@@ -223,7 +266,7 @@ class HomePageState extends State<HomePage> {
       backgroundColor: Color.fromRGBO(50, 71, 85, 1),
       body: ListView(
         children: [
-          settask,
+          coin,
           showtime,
           thedog,
           startbutton,
@@ -234,22 +277,24 @@ class HomePageState extends State<HomePage> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             userHeader, // 可在这里替换自定义的header
-            ListTile(title: Text('自习室'),
-              leading: new CircleAvatar(child: new Icon(Icons.school),),
-              onTap: () {
-                Navigator.pop(context);
-              },),
+//            ListTile(title: Text('自习室'),
+//              leading: new CircleAvatar(child: new Icon(Icons.school),),
+//              onTap: () {
+//                Navigator.pop(context);
+//              },),
             ListTile(title: Text('我的狗窝'),
               leading: new CircleAvatar(child: new Icon(Icons.sd_storage),),
               onTap: () {
-                Navigator.of(context).pushNamed(GouPage.tag);
+                Navigator.of(context).pushNamed(GouPage.tag).then((value) => setState(() {
+                }));
               },),
             ListTile(title: Text('数据统计'),
               leading: new CircleAvatar(
                 child: new Icon(Icons.data_usage),),
               onTap: () {
                 // Navigator.pop(context);
-                Navigator.of(context).pushNamed(DataPage.tag);
+                Navigator.of(context).pushNamed(DataPage.tag).then((value) => setState(() {
+                }));
               },),
             ListTile(title: Text('好友'),
               leading: new CircleAvatar(

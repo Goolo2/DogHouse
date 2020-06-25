@@ -144,11 +144,14 @@ class _NeuStartButtonState extends State<NeuStartButton> {
           coins = (beyondTwoHour > 0)?(coins - beyondTwoHour*1.2).round():coins;
           if (HomePage.tagg != ""){
             HomePageState().update_datebase(currentDuration.inSeconds, HomePage.tagg, coins, flag);
+//            setState(() {});
           }
           else{
             HomePageState().update_datebase(currentDuration.inSeconds, 'study', coins, flag);
+//            setState(() {});
           }
           Navigator.of(context).pop('加时'+plustime.toString()+'s');
+          setState(() {});
         }
         else{
           Navigator.of(context).pop('提前结束');

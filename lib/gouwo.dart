@@ -18,38 +18,7 @@ class gouState extends State<GouPage>{
       loadData();
     }
   }
-
-//  @override
-//  Widget build(BuildContext context) {
-//    return
-//      FlipCard(
-//        key: cardKey,
-//        flipOnTouch: true,
-//        front: Container(
-//          height: 200,
-//          width: 345,
-//          margin: EdgeInsets.all(10),
-//          color: Colors.teal,
-//          child: Center(
-//            child: Text("《遮天》",style:TextStyle(
-//                fontSize:40,
-//                color:Colors.white
-//            )),
-//        ),
-//      ),
-//        back: Container(
-//          height: 200,
-//          width: 345,
-//          margin: EdgeInsets.all(10),
-//          color: Colors.pink,
-//          padding: EdgeInsets.all(10),
-//          child: Text('....'
-//            ,style: TextStyle(
-//            color: Colors.white,
-//            height:2.0
-//            )),
-//          ),
-//      );
+  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
