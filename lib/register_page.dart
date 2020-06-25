@@ -373,25 +373,27 @@ class _RegisterPageState extends State<RegisterPage> {
               print('Account number: $_accountNumber');
               Property.coins = 0;
               Property.dogsIdSet.add(1);
+              Property.friends.add(_accountNumber.toString());
               FirebaseAuth.instance
                   .createUserWithEmailAndPassword(
                     email: _accountNumber, password: _password)
                   .then((currentUser) => Firestore.instance
                     .collection("users")
-                    .document(currentUser.uid)
+                    .document(_accountNumber)
                     .setData({
                       "uid": currentUser.uid,
                       "username": _username,
                       "accountNumber": _accountNumber,
                       "coins": Property.coins,
                       "dogsIdSet": Property.dogsIdSet,
+                      "friends": Property.friends,
               }).then((result) => setDisplayUserName()
 //              {
 //                setDisplayUserName();
 //                Firestore.instance.collection("times").document(currentUser.uid).setData({});
 //                Navigator.of(context).pushNamed(HomePage.tag);
 //              }
-              ).then((value) => Firestore.instance.collection("times").document(currentUser.uid).setData({}))
+              ).then((value) => Firestore.instance.collection("times").document(_accountNumber).setData({}))
                   .then((value) => FirebaseAuth.instance
                   .signInWithEmailAndPassword(
                   email: _accountNumber, password: _password)).then((value) => Navigator.of(context).pushNamed(HomePage.tag)));

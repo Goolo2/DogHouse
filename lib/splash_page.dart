@@ -24,10 +24,10 @@ class _SplashPageState extends State<SplashPage> {
         {
           Firestore.instance
               .collection("users")
-              .document(currentUser.uid)
+              .document(currentUser.email)
               .get()
               .then((DocumentSnapshot result) =>
-              Navigator.of(context).pushNamed(HomePage.tag)
+              Navigator.of(context).pushNamed(LoginPage.tag)
               .catchError((err) => print(err)))
           }
     })

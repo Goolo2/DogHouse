@@ -87,7 +87,7 @@ void dispose() {
                 onPressed: () {
                    FirebaseAuth.instance.currentUser()
                        .then((currentUser) => Firestore.instance.collection("users")
-                       .document(currentUser.uid).updateData({"username": newUsername}))
+                       .document(currentUser.email).updateData({"username": newUsername}))
                        .then((value) => changeDisplayUserName(newUsername))
                        .then((value) => Navigator.of(context).pop())
                        .then((value) => Navigator.of(context).pop());

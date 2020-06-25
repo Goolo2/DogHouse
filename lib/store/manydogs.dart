@@ -183,7 +183,7 @@ class _StorePageState extends State<StorePage> {
         FirebaseAuth.instance.currentUser()
             .then((currentUser) =>
             Firestore.instance.collection("users")
-                .document(currentUser.uid).updateData(
+                .document(currentUser.email).updateData(
                 {"coins": Property.coins, "dogsIdSet": Property.dogsIdSet}));
         Navigator.of(context).pop();
         setState(() {});

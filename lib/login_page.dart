@@ -292,7 +292,7 @@ class _LoginPageState extends State<LoginPage> {
                   email: _accountNumber, password: _password)
                 .then((currentUser) => Firestore.instance
                   .collection("users")
-                  .document(currentUser.uid)
+                  .document(currentUser.email)
                   .get()
                   .then((DocumentSnapshot result) =>
                      Navigator.of(context).pushNamed(HomePage.tag)))

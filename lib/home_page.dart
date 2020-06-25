@@ -16,6 +16,7 @@ import 'package:doghouse/gouwo.dart';
 class Property {
   static int coins;
   static List <int> dogsIdSet = List();
+  static List <String> friends = List();
 }
 
 
@@ -65,14 +66,18 @@ class HomePageState extends State<HomePage> {
   initUser() async {
     print('初始化user');
     user = await _auth.currentUser();
-    result = await Firestore.instance.collection("times").document(user.uid).get();
-    DocumentSnapshot propertyResult = await Firestore.instance.collection("users").document(user.uid).get();
+    result = await Firestore.instance.collection("times").document(user.email).get();
+    DocumentSnapshot propertyResult = await Firestore.instance.collection("users").document(user.email).get();
     Property.coins = propertyResult.data["coins"];
     Property.dogsIdSet.clear();
+    Property.friends.clear();
+    print(propertyResult.data);
     for (dynamic id in propertyResult.data["dogsIdSet"]) {
       Property.dogsIdSet.add(id as int);
     }
-    Property.dogsIdSet.toSet().toList();
+    for (dynamic friend in propertyResult.data["friends"]) {
+      Property.friends.add(friend as String);
+    }
     setState(() {});
     HomePage.username = user.displayName;
     HomePage.email = user.email;
@@ -91,26 +96,26 @@ class HomePageState extends State<HomePage> {
     else{
       print('获得金币数量: $coins');
       user = await _auth.currentUser();
-      result = await Firestore.instance.collection("times").document(user.uid).get();
+      result = await Firestore.instance.collection("times").document(user.email).get();
       DateTime date = new DateTime.now();
       int time = _time;
       String tag = _tag;
       String len = result.data.length.toString()??0;
       TimeEntry t = TimeEntry(date, time, tag, coins);
-      Firestore.instance.collection("times").document(user.uid).updateData({
+      Firestore.instance.collection("times").document(user.email).updateData({
         "${len}": t.toJson(),
       });
       Property.coins = Property.coins + coins;
       FirebaseAuth.instance.currentUser()
           .then((currentUser) => Firestore.instance.collection("users")
-          .document(currentUser.uid).updateData({"coins":Property.coins}));
+          .document(currentUser.email).updateData({"coins": Property.coins}));
       await init_database();
     }
   }
 
   void init_database() async {
     user = await _auth.currentUser();
-    result = await Firestore.instance.collection("times").document(user.uid).get();
+    result = await Firestore.instance.collection("times").document(user.email).get();
     HomePage.times.clear();
     for (String key in result.data.keys){
       HomePage.times.add(TimeEntry(result[key]["date"].toDate(), result[key]["time"], result[key]["tag"], result[key]["coins"],));
@@ -125,6 +130,7 @@ class HomePageState extends State<HomePage> {
     }
     print("coins: ");print(Property.coins);
     print("dogsIdSet: ");print(Property.dogsIdSet);
+    print("friends: ");print(Property.friends);
     Widget userHeader =  UserAccountsDrawerHeader(
       accountName: new Text(HomePage.username == null ?("$user?.displayName"):HomePage.username),
       accountEmail: new Text("${user?.email}"),
