@@ -372,6 +372,8 @@ class _RegisterPageState extends State<RegisterPage> {
               // connect database
               print('Account number: $_accountNumber');
               Property.coins = 0;
+              Property.dogsIdSet.clear();
+              Property.friends.clear();
               Property.dogsIdSet.add(1);
               Property.friends.add(_accountNumber.toString());
               FirebaseAuth.instance
