@@ -8,6 +8,7 @@ import 'package:flutter/services.dart' show rootBundle;
 
 class StorePage extends StatefulWidget {
   static String tag = 'Store-page';
+
   @override
   _StorePageState createState() => _StorePageState();
 }
@@ -51,40 +52,9 @@ class _StorePageState extends State<StorePage> {
 //        imgUrl: "https://img.icons8.com/cotton/64/000000/dog-sit--v1.png",
 //        qty: 1),
 //  ];
-  static List<Product> _products = [
-  Product(
-        id: 1,
-        title: "dog1",
-        price: 0,
-        imgUrl: "images/store/dog1.png",
-        qty: 1),
-  ];
+
   int flag = 0;
 
-  Future<String> loadAsset() async {
-    var a = await rootBundle.loadString('images/store/dogs.txt');
-    return a;
-  }
-
-  void readLocalDogs() async {
-    int index = 2;
-    int price = 800;
-    loadAsset().then((value) {
-      for (String dogName in value.toString().split('\n')) {
-        _products.add(Product(
-            id: index,
-            title: "dog" + index.toString(),
-            price: 800,
-            imgUrl: dogName,
-            qty:1
-        ));
-        index = index + 1;
-        price = price + 200;
-      }
-    });
-    setState(() {
-    });
-  }
   void confirmPurchaseDialog(product) {
     showDialog(
         context: context,
@@ -150,26 +120,25 @@ class _StorePageState extends State<StorePage> {
 
   @override
   Widget build(BuildContext context) {
-//    readLocalDogs();
-    int index = 2;
-    int price = 800;
-    if (flag == 0 && _products.length == 1) {
-      loadAsset().then((value) {
-        for (String dogName in value.toString().split('\n')) {
-          _products.add(Product(
-              id: index,
-              title: "dog" + index.toString(),
-              price: price,
-              imgUrl: dogName.trimRight(),
-              qty: 1
-          ));
-          index = index + 1;
-          price = price + 200;
-        }
-      }).then((value) {flag=1;
-      setState(() {});
-      });
-    }
+//    int index = 2;
+//    int price = 800;
+//    if (flag == 0 && StorePage._products.length == 1) {
+//      loadAsset().then((value) {
+//        for (String dogName in value.toString().split('\n')) {
+//          StorePage._products.add(Product(
+//              id: index,
+//              title: "dog" + index.toString(),
+//              price: price,
+//              imgUrl: dogName.trimRight(),
+//              qty: 1
+//          ));
+//          index = index + 1;
+//          price = price + 200;
+//        }
+//      }).then((value) {flag=1;
+//      setState(() {});
+//      });
+//    }
     return Scaffold(
       backgroundColor: Colors.indigo[50],
       appBar: AppBar(
@@ -210,7 +179,7 @@ class _StorePageState extends State<StorePage> {
       body:
       GridView.builder(
         padding: EdgeInsets.all(8.0),
-        itemCount: _products.length,
+        itemCount: HomePage.products.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 2, mainAxisSpacing: 8, crossAxisSpacing: 8, childAspectRatio: 0.8),
         itemBuilder: (context, index){
           // return ScopedModelDescendant<CartModel>(
@@ -220,10 +189,10 @@ class _StorePageState extends State<StorePage> {
               Column( 
                 children: <Widget>[
 //                   Column(
-                    new Image.asset(_products[index].imgUrl, height: 120, width: 120,),
+                    new Image.asset(HomePage.products[index].imgUrl, height: 120, width: 120,),
 
 //                    Image.network(_products[index].imgUrl, height: 120, width: 120,),
-                    Text(_products[index].title, style: TextStyle(fontWeight: FontWeight.bold),),
+                    Text(HomePage.products[index].title, style: TextStyle(fontWeight: FontWeight.bold),),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -233,16 +202,16 @@ class _StorePageState extends State<StorePage> {
                           width: 15,
                           height: 15,
                         ),
-                        Text(_products[index].price.toString()),
+                        Text(HomePage.products[index].price.toString()),
                       ],
                     ),
                   // ),
               OutlineButton(
-                    child: Text(Property.dogsIdSet.contains(_products[index].id)?"已解锁":"Add"),
+                    child: Text(Property.dogsIdSet.contains(HomePage.products[index].id)?"已解锁":"Add"),
                     onPressed: () {
-                      if (Property.dogsIdSet.contains(_products[index].id)) {
+                      if (Property.dogsIdSet.contains(HomePage.products[index].id)) {
                       } else {
-                        confirmPurchaseDialog(_products[index]);
+                        confirmPurchaseDialog(HomePage.products[index]);
                       }})
             ])); 
           // }

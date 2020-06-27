@@ -11,16 +11,7 @@ import 'package:doghouse/store/manydogs.dart';
 import 'package:doghouse/gouwo.dart';
 import 'package:doghouse/friends_page.dart';
 import 'package:doghouse/store/dogmodel.dart';
-
-class coin with ChangeNotifier{
-  int _coin = 0;
-  int get value => _coin;
-
-  void incre(int inc){
-    _coin += inc;
-    notifyListeners();
-  }
-}
+import 'package:flutter/services.dart' show rootBundle;
 
 class Property {
   static int coins;
@@ -34,13 +25,15 @@ class TimeEntry{
   int time;
   String tag;
   int coins;
-  TimeEntry(this.date, this.time, this.tag, this.coins);
+  int currentDogId;
+  TimeEntry(this.date, this.time, this.tag, this.coins, this.currentDogId);
   toJson(){
     return{
       "date": date,
       "time": time,
       "tag": tag,
       "coins": coins,
+      "id": currentDogId,
     };
   }
 }
@@ -50,6 +43,14 @@ class HomePage extends StatefulWidget {
   static List<TimeEntry> times = List();
   static String username;
   static String email = '';
+  static List<Product> products = [
+    Product(
+        id: 1,
+        title: "dog1",
+        price: 0,
+        imgUrl: "images/store/dog1.png",
+        qty: 1),
+  ];
   static String tagg = '';
   @override
   State<StatefulWidget> createState()  => HomePageState();
@@ -67,6 +68,10 @@ class HomePageState extends State<HomePage> {
   int _workSessionValue = 25;
   // 保存所有购买的狗
 
+  Future<String> loadAsset() async {
+    var a = await rootBundle.loadString('images/store/dogs.txt');
+    return a;
+  }
 
   initUser() async {
     print('初始化user');
@@ -83,6 +88,24 @@ class HomePageState extends State<HomePage> {
     for (dynamic friend in propertyResult.data["friends"]) {
       Property.friends.add(friend as String);
     }
+    //初始化store dogs
+    int index = 2;
+    int price = 800;
+    if (HomePage.products.length == 1) {
+      loadAsset().then((value) {
+        for (String dogName in value.toString().split('\n')) {
+          HomePage.products.add(Product(
+              id: index,
+              title: "dog" + index.toString(),
+              price: price,
+              imgUrl: dogName.trimRight(),
+              qty: 1
+          ));
+          index = index + 1;
+          price = price + 200;
+        }
+      });
+    }
     setState(() {});
     HomePage.username = user.displayName;
     HomePage.email = user.email;
@@ -93,7 +116,7 @@ class HomePageState extends State<HomePage> {
     super.initState();
     this._name.text = null; // 设置初始值
     //默认狗
-    this.dogurl="https://img.icons8.com/clouds/100/000000/dog.png";
+    this.dogurl = HomePage.products[0].imgUrl;
     initUser();
   }
 
@@ -109,7 +132,7 @@ class HomePageState extends State<HomePage> {
       int time = _time;
       String tag = _tag;
       String len = result.data.length.toString()??0;
-      TimeEntry t = TimeEntry(date, time, tag, coins);
+      TimeEntry t = TimeEntry(date, time, tag, coins, ChooseDog.selectDog);
       Firestore.instance.collection("times").document(user.email).updateData({
         "${len}": t.toJson(),
       });
@@ -127,7 +150,7 @@ class HomePageState extends State<HomePage> {
     result = await Firestore.instance.collection("times").document(user.email).get();
     HomePage.times.clear();
     for (String key in result.data.keys){
-      HomePage.times.add(TimeEntry(result[key]["date"].toDate(), result[key]["time"], result[key]["tag"], result[key]["coins"],));
+      HomePage.times.add(TimeEntry(result[key]["date"].toDate(), result[key]["time"], result[key]["tag"], result[key]["coins"], result[key]["id"]));
     }
   }
 
@@ -235,6 +258,7 @@ class HomePageState extends State<HomePage> {
                     ),
                   ),
     );
+
     Widget thedog=Container(
       padding: const EdgeInsets.fromLTRB(0,30,0,0),
       width:300,
@@ -244,14 +268,12 @@ class HomePageState extends State<HomePage> {
         onPressed: () async{
           bool confirm=await _dialogCall(context);
           if(confirm==null){
-            print("fuck");
+            print("nothing");
           }
           else{
-            print("I get the fucking dog");
-            print(_ChooseDogState.selectdog);
-            
+            print(ChooseDog.selectDog);
             setState(() {
-              this.dogurl=_ChooseDogState._mydogs[_ChooseDogState.selectdog].imgUrl;
+              this.dogurl=HomePage.products[ChooseDog.selectDog-1].imgUrl;
             });
           }
           },
@@ -261,10 +283,9 @@ class HomePageState extends State<HomePage> {
         // borderRadius: BorderRadius.circular(5.0),
         image: DecorationImage(
         	fit: BoxFit.fill,
-          image: NetworkImage(dogurl),
-            // image: AssetImage(
-            // 	"images/logo.png",
-            // ),
+             image: AssetImage(
+             	this.dogurl,
+             ),
    		 )
     ),
     );
@@ -420,49 +441,25 @@ class HomePageState extends State<HomePage> {
 }
 
 class ChooseDog extends StatefulWidget{
-static String tag = 'Choose-Dog';
+  static String tag = 'Choose-Dog';
+  static int selectDog = 1;
 
-_ChooseDogState createState()=>new _ChooseDogState();
+_ChooseDogState createState() => new _ChooseDogState();
 
 }
+
 class _ChooseDogState extends State<ChooseDog>{
   List<Widget> doglist = List();
   // num selectdog=0;
-  static int selectdog=1;
+
   void initState() {
     super.initState();
     if (HomePage.times != null){
-      loaddogs();
+      loadDogs();
     }
   }
-  static List<Owndogs> _mydogs = [
-    Owndogs(
-        id: 1,
-        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
-    ),
-    Owndogs(
-        id: 2,
 
-        imgUrl: "https://img.icons8.com/doodle/48/000000/dog.png",
-    ),
-    Owndogs(
-        id: 3,
-        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
-    ),
-    Owndogs(
-        id: 4,
-        imgUrl: "https://img.icons8.com/cute-clipart/64/000000/dog.png",
-    ),
-    Owndogs(
-        id: 5,
-        imgUrl: "https://img.icons8.com/emoji/48/000000/dog-emoji.png",
-    ),
-    Owndogs(
-        id: 6,
-        imgUrl: "https://img.icons8.com/cotton/64/000000/dog-sit--v1.png",
-    ),
-  ];
-  void loaddogs() async{
+  void loadDogs() async{
     for (num id in Property.dogsIdSet){
         Widget c=Container(
                   height:120,
@@ -471,11 +468,11 @@ class _ChooseDogState extends State<ChooseDog>{
                       constraints: BoxConstraints.expand(),
                       child: FlatButton(
                               onPressed: (){
-                                selectdog=id-1;
+                                ChooseDog.selectDog = id;
                               },
                               padding: EdgeInsets.all(0.0),
-                              // child: Image.asset('images/logo.png')
-                              child:Image.network(_mydogs[id-1].imgUrl),
+                               child: Image.asset(HomePage.products[id-1].imgUrl)
+//                              child:Image.network(_mydogs[id-1].imgUrl),
                               )
                             )
                           );
