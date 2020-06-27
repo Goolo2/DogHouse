@@ -239,7 +239,7 @@ class HomePageState extends State<HomePage> {
                   )
     );
     Widget showtime=Container(
-      padding: const EdgeInsets.fromLTRB(120,10,120,30),
+      padding: const EdgeInsets.fromLTRB(120,50,120,30),
       child: RawMaterialButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(35))),
@@ -258,7 +258,6 @@ class HomePageState extends State<HomePage> {
                     ),
                   ),
     );
-
     Widget thedog=Container(
       padding: const EdgeInsets.fromLTRB(0,30,0,0),
       width:300,
@@ -291,7 +290,66 @@ class HomePageState extends State<HomePage> {
     );
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("DogHouse"),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        actions: <Widget>[
+          // IconButton(
+          //   icon: Image.asset('images/coin.png'),
+          //   iconSize: 20,
+          //   tooltip: "yes",
+          //   onPressed: () {}
+          // ),
+          Row(
+            children: <Widget>[
+              FlatButton(
+              child: 
+                Row(
+                  children: <Widget>[
+                    Container(
+                      height:35,
+                      width:35,
+                      decoration: new BoxDecoration(
+                        image:new DecorationImage(
+                          image: AssetImage('images/coin.png'),
+                          ),
+                      ),
+                    ),
+                    Text("${Property.coins}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                    ),),
+                  ],
+                ),
+              onPressed: (){},
+            ),
+              
+            SizedBox(width: 80,),
+              
+            IconButton(
+                icon:Icon(Icons.chat_bubble,size: 30,),
+                color: Colors.white,
+                onPressed: () async {
+                  //弹出对话框并等待其关闭，异步
+                  bool delete = await _showmydialog();
+                  if (delete == null) {
+                    this._name.text=null;
+                    this._name.clear();
+                    print("取消");
+                  } else {
+                    print(this._name.text);
+                    HomePage.tagg = this._name.text;
+                    // 读取完清除值
+                    this._name.clear();
+                    print("确认");
+                    //... 删除文件
+                  }
+                },
+              ),
+          ],)
+          
+        ],
+        // title: new Text("DogHouse"),
       ),
       backgroundColor: Color.fromRGBO(50, 71, 85, 1),
       body: ListView(
@@ -301,7 +359,7 @@ class HomePageState extends State<HomePage> {
             child:Column(
               mainAxisAlignment:MainAxisAlignment.center ,
               children: <Widget>[
-                coin,
+                // coin,
                 showtime,
                 thedog,
                 startbutton,

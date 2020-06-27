@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: '登录Demo',
+      title: 'DogHouse',
       debugShowCheckedModeBanner: false,
       theme: new ThemeData(
         primarySwatch: Colors.lightBlue,
