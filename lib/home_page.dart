@@ -62,6 +62,7 @@ class HomePageState extends State<HomePage> {
   NumberPicker integerNumberPicker;
   // 控制器，控制TextField文字
   TextEditingController _name = TextEditingController();
+  String dogurl;
   // 设置默认时长
   int _workSessionValue = 25;
   // 保存所有购买的狗
@@ -91,6 +92,8 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     this._name.text = null; // 设置初始值
+    //默认狗
+    this.dogurl="https://img.icons8.com/clouds/100/000000/dog.png";
     initUser();
   }
 
@@ -146,9 +149,6 @@ class HomePageState extends State<HomePage> {
     final Brightness brightnessValue =
         MediaQuery.of(context).platformBrightness;
     bool isDark = brightnessValue == Brightness.dark;
-
-    //默认狗
-    String dogurl="https://img.icons8.com/clouds/100/000000/dog.png";
 
     Widget coin=Container(
       child: new Row(
@@ -249,8 +249,9 @@ class HomePageState extends State<HomePage> {
           else{
             print("I get the fucking dog");
             print(_ChooseDogState.selectdog);
-            dogurl=_ChooseDogState._mydogs[_ChooseDogState.selectdog].imgUrl;
+            
             setState(() {
+              this.dogurl=_ChooseDogState._mydogs[_ChooseDogState.selectdog].imgUrl;
             });
           }
           },
@@ -470,7 +471,7 @@ class _ChooseDogState extends State<ChooseDog>{
                       constraints: BoxConstraints.expand(),
                       child: FlatButton(
                               onPressed: (){
-                                selectdog=id;
+                                selectdog=id-1;
                               },
                               padding: EdgeInsets.all(0.0),
                               // child: Image.asset('images/logo.png')
