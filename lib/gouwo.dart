@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
 import 'home_page.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class GouPage extends StatefulWidget {
   static String tag = 'gou-page';
@@ -22,32 +23,26 @@ class gouState extends State<GouPage>{
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.indigo,
+        title: Text("Home"),
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
           new SliverAppBar(
-            actions: <Widget>[
-              new Container(
-                child: new Icon(
-                  Icons.add,
-                  color: Colors.white,
-                ),
-              )
-              //只能用金泰的？
-            ],
-            leading: Icon(Icons.add),
             // title:Text('Demo'),
             centerTitle: true,
             pinned: true,
             //是否固定。
             backgroundColor: Colors.white,
-            expandedHeight: 150.0,
+            expandedHeight: 125.0,
             flexibleSpace: new FlexibleSpaceBar(
               background: Image.asset(
-                'images/logo.png',
+                'images/bar.png',
                 fit: BoxFit.cover,
               ),
               centerTitle: true,
-              title: const Text('我的狗窝'),
+//              title: const Text('我的狗窝'),
             ),
           ),
           new SliverFixedExtentList(
@@ -64,8 +59,23 @@ class gouState extends State<GouPage>{
     );
   }
 
+  Future<String> loadAsset() async {
+    var a = await rootBundle.loadString('images/store/dogs.txt');
+    return a;
+  }
+
   void loadData() async{
     for (TimeEntry time in HomePage.times){
+//      String img = await loadAsset();
+//      int index = 2;
+//      String name;
+//      for (String dogName in img.split('\n')) {
+//        if (index==time.currentDogId){
+//          name = dogName;
+//          break;
+//        }
+//        index = index + 1;
+//      }
       FlipCard c = new FlipCard(
         front: Container(
           height: 200,
@@ -86,13 +96,25 @@ class gouState extends State<GouPage>{
           margin: EdgeInsets.all(10),
           color: Colors.lightBlue,
           padding: EdgeInsets.all(10),
-          child: Center(
-            child: Text(time.tag.toString()+' for '+time.time.toString()+'min'
+//          child: Center(
+//            child: Text(time.tag.toString()+' for '+time.time.toString()+'min'
+//                ,style: TextStyle(
+//                  color: Colors.white,
+//                  fontSize:40,
+//                )),
+//          )
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+          Text(time.tag.toString()+' for '+time.time.toString()+'min'
                 ,style: TextStyle(
                   color: Colors.white,
-                  fontSize:40,
+                  fontSize:30,
                 )),
-          )
+            Image.asset('images/store/dog'+time.currentDogId.toString()+'.png'),
+//            Image.asset('images/store'+name+'.png'),
+          ],
+        ),
         ),
       );
       widgetList.add(c);

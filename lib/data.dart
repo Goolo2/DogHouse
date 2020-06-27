@@ -149,6 +149,10 @@ class systemPagerState extends State<DataPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.indigo,
+        title: Text("Home"),
+      ),
       body: CustomScrollView(
         slivers: <Widget>[
           new SliverAppBar(
@@ -167,14 +171,14 @@ class systemPagerState extends State<DataPage> {
             pinned: true,
             //是否固定。
             backgroundColor: Colors.white,
-            expandedHeight: 150.0,
+            expandedHeight: 125.0,
             flexibleSpace: new FlexibleSpaceBar(
               background: Image.asset(
-                'images/logo.png',
+                'images/bar.png',
                 fit: BoxFit.cover,
               ),
               centerTitle: true,
-              title: const Text('数据统计'),
+//              title: const Text('数据统计'),
             ),
           ),
           new SliverFixedExtentList(
