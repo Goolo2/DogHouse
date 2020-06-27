@@ -221,9 +221,6 @@ class HomePageState extends State<HomePage> {
 //                          print("当前coins:"); print(Property.coins);
                           setState(() {});
                       });
-//                      Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) => setState(() {}));
-
-                      // Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue )
                     },
                     shape:RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(35))),
@@ -330,7 +327,7 @@ class HomePageState extends State<HomePage> {
                 icon:Icon(Icons.chat_bubble,size: 30,),
                 color: Colors.white,
                 onPressed: () async {
-                  //弹出对话框并等待其关闭，异步
+                  //弹出对话框并等待其关闭，同步
                   bool delete = await _showmydialog();
                   if (delete == null) {
                     this._name.text=null;

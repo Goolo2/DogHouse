@@ -83,8 +83,9 @@ class _StorePageState extends State<StorePage> {
     return Scaffold(
       backgroundColor: Colors.indigo[50],
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
-        title: Text("Home"),
+        elevation: 30,
+        backgroundColor: Color.fromRGBO(50, 71, 85, 1),
+        title: Text("商店"),
         actions: <Widget>[
           // IconButton(
           //   icon: Image.asset('images/coin.png'),
@@ -145,7 +146,7 @@ class _StorePageState extends State<StorePage> {
                     ),
                   // ),
               OutlineButton(
-                    child: Text(Property.dogsIdSet.contains(HomePage.products[index].id)?"已解锁":"Add"),
+                    child: Text(Property.dogsIdSet.contains(HomePage.products[index].id)?"已解锁":"购买"),
                     onPressed: () {
                       if (Property.dogsIdSet.contains(HomePage.products[index].id)) {
                       } else {
