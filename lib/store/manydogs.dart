@@ -3,6 +3,8 @@ import 'package:doghouse/home_page.dart';
 import 'package:doghouse/store/dogmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+import 'package:flutter/services.dart' show rootBundle;
 
 class StorePage extends StatefulWidget {
   static String tag = 'Store-page';
@@ -11,45 +13,78 @@ class StorePage extends StatefulWidget {
 }
 
 class _StorePageState extends State<StorePage> {
-  List<Product> _products = [
-    Product(
+//  List<Product> _products = [
+//    Product(
+//        id: 1,
+//        title: "dog1",
+//        price: 0,
+//        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
+//        qty: 1),
+//    Product(
+//        id: 2,
+//        title: "dog2",
+//        price: 1000,
+//        imgUrl: "https://img.icons8.com/doodle/48/000000/dog.png",
+//        qty: 1),
+//    Product(
+//        id: 3,
+//        title: "dog3",
+//        price: 1200,
+//        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
+//        qty: 1),
+//    Product(
+//        id: 4,
+//        title: "dog4",
+//        price: 1500,
+//        imgUrl: "https://img.icons8.com/cute-clipart/64/000000/dog.png",
+//        qty: 1),
+//    Product(
+//        id: 5,
+//        title: "dog5",
+//        price: 1800,
+//        imgUrl: "https://img.icons8.com/emoji/48/000000/dog-emoji.png",
+//        qty: 1),
+//    Product(
+//        id: 6,
+//        title: "dog6",
+//        price: 2000,
+//        imgUrl: "https://img.icons8.com/cotton/64/000000/dog-sit--v1.png",
+//        qty: 1),
+//  ];
+  static List<Product> _products = [
+  Product(
         id: 1,
         title: "dog1",
         price: 0,
-        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
-        qty: 1),
-    Product(
-        id: 2,
-        title: "dog2",
-        price: 1000,
-        imgUrl: "https://img.icons8.com/doodle/48/000000/dog.png",
-        qty: 1),
-    Product(
-        id: 3,
-        title: "dog3",
-        price: 1200,
-        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
-        qty: 1),
-    Product(
-        id: 4,
-        title: "dog4",
-        price: 1500,
-        imgUrl: "https://img.icons8.com/cute-clipart/64/000000/dog.png",
-        qty: 1),
-    Product(
-        id: 5,
-        title: "dog5",
-        price: 1800,
-        imgUrl: "https://img.icons8.com/emoji/48/000000/dog-emoji.png",
-        qty: 1),
-    Product(
-        id: 6,
-        title: "dog6",
-        price: 2000,
-        imgUrl: "https://img.icons8.com/cotton/64/000000/dog-sit--v1.png",
+        imgUrl: "images/store/dog1.png",
         qty: 1),
   ];
+  int flag = 0;
 
+  Future<String> loadAsset() async {
+    var a = await rootBundle.loadString('images/store/dogs.txt');
+    return a;
+  }
+
+  void readLocalDogs() async {
+    int index = 2;
+    int price = 800;
+    loadAsset().then((value) {
+      for (String dogName in value.toString().split('\n')) {
+        _products.add(Product(
+            id: index,
+            title: "dog" + index.toString(),
+            price: 800,
+            imgUrl: dogName,
+            qty:1
+        ));
+        index = index + 1;
+        price = price + 200;
+      }
+    });
+    setState(() {
+    });
+  }
   void confirmPurchaseDialog(product) {
     showDialog(
         context: context,
@@ -84,6 +119,7 @@ class _StorePageState extends State<StorePage> {
   }
 
   void insufficientCoinsAlertDialog(int money) {
+
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -114,6 +150,26 @@ class _StorePageState extends State<StorePage> {
 
   @override
   Widget build(BuildContext context) {
+//    readLocalDogs();
+    int index = 2;
+    int price = 800;
+    if (flag == 0 && _products.length == 1) {
+      loadAsset().then((value) {
+        for (String dogName in value.toString().split('\n')) {
+          _products.add(Product(
+              id: index,
+              title: "dog" + index.toString(),
+              price: price,
+              imgUrl: dogName.trimRight(),
+              qty: 1
+          ));
+          index = index + 1;
+          price = price + 200;
+        }
+      }).then((value) {flag=1;
+      setState(() {});
+      });
+    }
     return Scaffold(
       backgroundColor: Colors.indigo[50],
       appBar: AppBar(
@@ -159,12 +215,14 @@ class _StorePageState extends State<StorePage> {
         itemBuilder: (context, index){
           // return ScopedModelDescendant<CartModel>(
               // builder: (context, child, model) {
-            return Card( 
+            return Card(
               child: 
               Column( 
                 children: <Widget>[
-                  // Column(
-                    Image.network(_products[index].imgUrl, height: 120, width: 120,),
+//                   Column(
+                    new Image.asset(_products[index].imgUrl, height: 120, width: 120,),
+
+//                    Image.network(_products[index].imgUrl, height: 120, width: 120,),
                     Text(_products[index].title, style: TextStyle(fontWeight: FontWeight.bold),),
                     Row(
                       mainAxisSize: MainAxisSize.min,
