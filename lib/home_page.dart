@@ -147,7 +147,8 @@ class HomePageState extends State<HomePage> {
         MediaQuery.of(context).platformBrightness;
     bool isDark = brightnessValue == Brightness.dark;
 
-    
+    //默认狗
+    String dogurl="https://img.icons8.com/clouds/100/000000/dog.png";
 
     Widget coin=Container(
       child: new Row(
@@ -241,7 +242,17 @@ class HomePageState extends State<HomePage> {
       child:MaterialButton(
         // onPressed: () {},
         onPressed: () async{
-          await _dialogCall(context);
+          bool confirm=await _dialogCall(context);
+          if(confirm==null){
+            print("fuck");
+          }
+          else{
+            print("I get the fucking dog");
+            print(_ChooseDogState.selectdog);
+            dogurl=_ChooseDogState._mydogs[_ChooseDogState.selectdog].imgUrl;
+            setState(() {
+            });
+          }
           },
         ),
       decoration: BoxDecoration(
@@ -249,9 +260,10 @@ class HomePageState extends State<HomePage> {
         // borderRadius: BorderRadius.circular(5.0),
         image: DecorationImage(
         	fit: BoxFit.fill,
-            image: AssetImage(
-            	"images/logo.png",
-            ),
+          image: NetworkImage(dogurl),
+            // image: AssetImage(
+            // 	"images/logo.png",
+            // ),
    		 )
     ),
     );
@@ -392,8 +404,8 @@ class HomePageState extends State<HomePage> {
       });
   }
   // 弹出选狗界面
-  Future<int> _dialogCall(BuildContext context){
-    return showDialog(
+  Future<bool> _dialogCall(BuildContext context){
+    return showDialog<bool>(
       context: context,
       builder: (BuildContext context){
         return ChooseDog();
@@ -408,19 +420,21 @@ class HomePageState extends State<HomePage> {
 
 class ChooseDog extends StatefulWidget{
 static String tag = 'Choose-Dog';
+
 _ChooseDogState createState()=>new _ChooseDogState();
 
 }
 class _ChooseDogState extends State<ChooseDog>{
   List<Widget> doglist = List();
-  num selectdog=0;
+  // num selectdog=0;
+  static int selectdog=1;
   void initState() {
     super.initState();
     if (HomePage.times != null){
       loaddogs();
     }
   }
-  List<Owndogs> _mydogs = [
+  static List<Owndogs> _mydogs = [
     Owndogs(
         id: 1,
         imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
@@ -500,7 +514,7 @@ class _ChooseDogState extends State<ChooseDog>{
             child: Text("确定"),
             onPressed: () {
               //关闭对话框并返回true
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(true);
               // 返回狗的id
               // Navigator.of(context).pop(selectdog);
             },
