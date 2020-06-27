@@ -119,12 +119,37 @@ class _StorePageState extends State<StorePage> {
       appBar: AppBar(
         backgroundColor: Colors.indigo,
         title: Text("Home"),
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(Icons.shopping_cart),
-        //     onPressed: () => Navigator.pushNamed(context, '/cart'),
-        //   )
-        // ],
+        actions: <Widget>[
+          // IconButton(
+          //   icon: Image.asset('images/coin.png'),
+          //   iconSize: 20,
+          //   tooltip: "yes",
+          //   onPressed: () {}
+          // ),
+          FlatButton(
+            child: 
+              Row(
+                children: <Widget>[
+                  Container(
+                    height:30,
+                    width:30,
+                    decoration: new BoxDecoration(
+                      image:new DecorationImage(
+                        image: AssetImage('images/coin.png'),
+                        ),
+                    ),
+                  ),
+                  Text("${Property.coins}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),),
+                ],
+              ),
+              
+            onPressed: (){},
+          ),
+        ],
       ),
       body:
       GridView.builder(

@@ -10,6 +10,7 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:doghouse/store/manydogs.dart';
 import 'package:doghouse/gouwo.dart';
 import 'package:doghouse/friends_page.dart';
+import 'package:doghouse/store/dogmodel.dart';
 
 class coin with ChangeNotifier{
   int _coin = 0;
@@ -63,6 +64,7 @@ class HomePageState extends State<HomePage> {
   TextEditingController _name = TextEditingController();
   // 设置默认时长
   int _workSessionValue = 25;
+  // 保存所有购买的狗
 
 
   initUser() async {
@@ -145,6 +147,8 @@ class HomePageState extends State<HomePage> {
         MediaQuery.of(context).platformBrightness;
     bool isDark = brightnessValue == Brightness.dark;
 
+    
+
     Widget coin=Container(
       child: new Row(
 //        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -186,7 +190,7 @@ class HomePageState extends State<HomePage> {
     );
 
     Widget startbutton=Container(
-      padding: const EdgeInsets.fromLTRB(135,20,135,20.0),
+      padding: const EdgeInsets.fromLTRB(135,80,135,20.0),
       child: new RaisedButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed(TimerScreen.tag, arguments:_workSessionValue ).then((value) {
@@ -211,7 +215,7 @@ class HomePageState extends State<HomePage> {
                   )
     );
     Widget showtime=Container(
-      padding: const EdgeInsets.fromLTRB(120,10,120,10),
+      padding: const EdgeInsets.fromLTRB(120,10,120,30),
       child: RawMaterialButton(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(35))),
@@ -231,14 +235,25 @@ class HomePageState extends State<HomePage> {
                   ),
     );
     Widget thedog=Container(
-      padding: const EdgeInsets.fromLTRB(45,30,45,0),
-      child: CircleAvatar(
-        backgroundImage: AssetImage(
-          'images/logo.png',
+      padding: const EdgeInsets.fromLTRB(0,30,0,0),
+      width:300,
+      height: 300,
+      child:MaterialButton(
+        // onPressed: () {},
+        onPressed: () async{
+          await _dialogCall(context);
+          },
         ),
-        // maxRadius: 200,
-        radius: 150,
-      )
+      decoration: BoxDecoration(
+    	shape: BoxShape.circle, //可以设置角度，BoxShape.circle直接圆形
+        // borderRadius: BorderRadius.circular(5.0),
+        image: DecorationImage(
+        	fit: BoxFit.fill,
+            image: AssetImage(
+            	"images/logo.png",
+            ),
+   		 )
+    ),
     );
     return new Scaffold(
       appBar: new AppBar(
@@ -247,10 +262,18 @@ class HomePageState extends State<HomePage> {
       backgroundColor: Color.fromRGBO(50, 71, 85, 1),
       body: ListView(
         children: [
-          coin,
-          showtime,
-          thedog,
-          startbutton,
+          Container(
+            alignment: Alignment.topCenter,
+            child:Column(
+              mainAxisAlignment:MainAxisAlignment.center ,
+              children: <Widget>[
+                coin,
+                showtime,
+                thedog,
+                startbutton,
+              ],
+            ),
+            )
         ],
       ),
       drawer: Drawer(
@@ -368,30 +391,119 @@ class HomePageState extends State<HomePage> {
         );
       });
   }
+  // 弹出选狗界面
+  Future<int> _dialogCall(BuildContext context){
+    return showDialog(
+      context: context,
+      builder: (BuildContext context){
+        return ChooseDog();
+        // 用下面的压栈会报错
+        // Navigator.of(context).pushNamed(ChooseDog.tag).then((value){
+        //   print(value);
+        // });
+      }
+      );
+  }
+}
 
-  // 弹出式对话框
-  // Future<bool> showDeleteConfirmDialog1() {
-  // return showDialog<bool>(
-  //   context: context,
-  //   builder: (context) {
-  //     return AlertDialog(
-  //       title: Text("提示"),
-  //       content: Text("您确定要删除当前文件吗?"),
-  //       actions: <Widget>[
-  //         FlatButton(
-  //           child: Text("取消"),
-  //           onPressed: () => Navigator.of(context).pop(), // 关闭对话框
-  //         ),
-  //         FlatButton(
-  //           child: Text("删除"),
-  //           onPressed: () {
-  //             //关闭对话框并返回true
-  //             Navigator.of(context).pop(true);
-  //           },
-  //         ),
-  //       ],
-  //     );
-  //   },
-  // );
-// }
+class ChooseDog extends StatefulWidget{
+static String tag = 'Choose-Dog';
+_ChooseDogState createState()=>new _ChooseDogState();
+
+}
+class _ChooseDogState extends State<ChooseDog>{
+  List<Widget> doglist = List();
+  num selectdog=0;
+  void initState() {
+    super.initState();
+    if (HomePage.times != null){
+      loaddogs();
+    }
+  }
+  List<Owndogs> _mydogs = [
+    Owndogs(
+        id: 1,
+        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
+    ),
+    Owndogs(
+        id: 2,
+
+        imgUrl: "https://img.icons8.com/doodle/48/000000/dog.png",
+    ),
+    Owndogs(
+        id: 3,
+        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
+    ),
+    Owndogs(
+        id: 4,
+        imgUrl: "https://img.icons8.com/cute-clipart/64/000000/dog.png",
+    ),
+    Owndogs(
+        id: 5,
+        imgUrl: "https://img.icons8.com/emoji/48/000000/dog-emoji.png",
+    ),
+    Owndogs(
+        id: 6,
+        imgUrl: "https://img.icons8.com/cotton/64/000000/dog-sit--v1.png",
+    ),
+  ];
+  void loaddogs() async{
+    for (num id in Property.dogsIdSet){
+        Widget c=Container(
+                  height:120,
+                  width: 100,
+                  child: ConstrainedBox(
+                      constraints: BoxConstraints.expand(),
+                      child: FlatButton(
+                              onPressed: (){
+                                selectdog=id;
+                              },
+                              padding: EdgeInsets.all(0.0),
+                              // child: Image.asset('images/logo.png')
+                              child:Image.network(_mydogs[id-1].imgUrl),
+                              )
+                            )
+                          );
+      doglist.add(c);
+    }
+  }
+  Widget build(BuildContext context){
+    return AlertDialog(
+        title: Text("选只狗吧"),
+        content: new Container(
+            height: 200,
+            width: 100,
+            child: GridView.builder(
+            itemCount: doglist.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 2, mainAxisSpacing: 8, crossAxisSpacing: 8, childAspectRatio: 0.8),
+            itemBuilder: (context, index){
+            return Card( 
+              child: 
+              Column( 
+                children: <Widget>[
+                  doglist[index]
+                  // Image.network(_mydogs[index].imgUrl),
+                  // Image.network(_mydogs[index].imgUrl, height: 120, width: 120,),
+                ]
+              )
+            );
+            }
+          ),
+        ),
+        // ),
+        actions: [
+          FlatButton(
+            child: Text("取消"),
+            onPressed: () => Navigator.of(context).pop(), // 关闭对话框
+          ),
+          FlatButton(
+            child: Text("确定"),
+            onPressed: () {
+              //关闭对话框并返回true
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    }
 }

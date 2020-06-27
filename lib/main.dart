@@ -1,3 +1,4 @@
+
 import 'package:doghouse/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:doghouse/home_page.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
     ChangeUsernamePage.tag: (content) => ChangeUsernamePage(),
     GouPage.tag: (content) => GouPage(),
     FriendsPage.tag: (content) => FriendsPage(),
+    ChooseDog.tag: (context) => ChooseDog(),
   };
 
   @override
