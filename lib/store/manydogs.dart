@@ -14,46 +14,6 @@ class StorePage extends StatefulWidget {
 }
 
 class _StorePageState extends State<StorePage> {
-//  List<Product> _products = [
-//    Product(
-//        id: 1,
-//        title: "dog1",
-//        price: 0,
-//        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
-//        qty: 1),
-//    Product(
-//        id: 2,
-//        title: "dog2",
-//        price: 1000,
-//        imgUrl: "https://img.icons8.com/doodle/48/000000/dog.png",
-//        qty: 1),
-//    Product(
-//        id: 3,
-//        title: "dog3",
-//        price: 1200,
-//        imgUrl: "https://img.icons8.com/clouds/100/000000/dog.png",
-//        qty: 1),
-//    Product(
-//        id: 4,
-//        title: "dog4",
-//        price: 1500,
-//        imgUrl: "https://img.icons8.com/cute-clipart/64/000000/dog.png",
-//        qty: 1),
-//    Product(
-//        id: 5,
-//        title: "dog5",
-//        price: 1800,
-//        imgUrl: "https://img.icons8.com/emoji/48/000000/dog-emoji.png",
-//        qty: 1),
-//    Product(
-//        id: 6,
-//        title: "dog6",
-//        price: 2000,
-//        imgUrl: "https://img.icons8.com/cotton/64/000000/dog-sit--v1.png",
-//        qty: 1),
-//  ];
-
-  int flag = 0;
 
   void confirmPurchaseDialog(product) {
     showDialog(
@@ -120,25 +80,6 @@ class _StorePageState extends State<StorePage> {
 
   @override
   Widget build(BuildContext context) {
-//    int index = 2;
-//    int price = 800;
-//    if (flag == 0 && StorePage._products.length == 1) {
-//      loadAsset().then((value) {
-//        for (String dogName in value.toString().split('\n')) {
-//          StorePage._products.add(Product(
-//              id: index,
-//              title: "dog" + index.toString(),
-//              price: price,
-//              imgUrl: dogName.trimRight(),
-//              qty: 1
-//          ));
-//          index = index + 1;
-//          price = price + 200;
-//        }
-//      }).then((value) {flag=1;
-//      setState(() {});
-//      });
-//    }
     return Scaffold(
       backgroundColor: Colors.indigo[50],
       appBar: AppBar(
@@ -188,11 +129,8 @@ class _StorePageState extends State<StorePage> {
               child: 
               Column( 
                 children: <Widget>[
-//                   Column(
                     new Image.asset(HomePage.products[index].imgUrl, height: 120, width: 120,),
-
-//                    Image.network(_products[index].imgUrl, height: 120, width: 120,),
-                    Text(HomePage.products[index].title, style: TextStyle(fontWeight: FontWeight.bold),),
+                   Text(HomePage.products[index].title, style: TextStyle(fontWeight: FontWeight.bold),),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
