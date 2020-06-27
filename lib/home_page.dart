@@ -501,6 +501,8 @@ class _ChooseDogState extends State<ChooseDog>{
             onPressed: () {
               //关闭对话框并返回true
               Navigator.of(context).pop();
+              // 返回狗的id
+              // Navigator.of(context).pop(selectdog);
             },
           ),
         ],
