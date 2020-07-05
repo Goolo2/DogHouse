@@ -96,7 +96,7 @@ class _FriendsPageState extends State<FriendsPage> {
           IconButton(
               icon:Icon(
                 Icons.person_add,
-                color: Colors.lightBlue,
+                color: Color.fromRGBO(217, 125, 84, 1),
               ),
               onPressed: () async {
                 bool add = await _addFriendDialog();
@@ -168,7 +168,7 @@ class _FriendsPageState extends State<FriendsPage> {
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
-                  color: Colors.indigo,
+                  // color: Colors.indigo,
                 ),
               );
             } else if (position.isOdd) {
@@ -189,7 +189,7 @@ class _FriendsPageState extends State<FriendsPage> {
                 title: Text("$username"),
                 subtitle: Text("$email\n总时长： $totalTimes"),
                 leading: CircleAvatar(
-                  backgroundColor: Colors.lightBlue,
+                  backgroundColor: Color.fromRGBO(217, 125, 84, 1),
                   child: Text(
                     "$rank",
                     style: TextStyle(

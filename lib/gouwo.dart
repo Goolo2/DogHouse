@@ -29,23 +29,23 @@ class gouState extends State<GouPage>{
       ),
       body: CustomScrollView(
         slivers: <Widget>[
-          new SliverAppBar(
-            // title:Text('Demo'),
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            pinned: true,
-            //是否固定。
-            backgroundColor: Colors.white,
-            expandedHeight: 125.0,
-            flexibleSpace: new FlexibleSpaceBar(
-              background: Image.asset(
-                'images/bar.png',
-                fit: BoxFit.cover,
-              ),
-              centerTitle: true,
-//              title: const Text('我的狗窝'),
-            ),
-          ),
+//           new SliverAppBar(
+//             // title:Text('Demo'),
+//             automaticallyImplyLeading: false,
+//             centerTitle: true,
+//             pinned: true,
+//             //是否固定。
+//             backgroundColor: Colors.white,
+//             expandedHeight: 125.0,
+//             flexibleSpace: new FlexibleSpaceBar(
+//               background: Image.asset(
+//                 'images/bar.png',
+//                 fit: BoxFit.cover,
+//               ),
+//               centerTitle: true,
+// //              title: const Text('我的狗窝'),
+//             ),
+//           ),
           new SliverFixedExtentList(
             itemExtent:150.0,
             delegate: new SliverChildBuilderDelegate(
