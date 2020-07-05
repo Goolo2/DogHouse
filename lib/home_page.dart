@@ -165,6 +165,9 @@ class HomePageState extends State<HomePage> {
     Widget userHeader =  UserAccountsDrawerHeader(
       accountName: new Text(HomePage.username == null ?("$user?.displayName"):HomePage.username),
       accountEmail: new Text("${user?.email}"),
+      decoration: BoxDecoration(
+        color: Color.fromRGBO(220, 220, 220, 0.7),
+      ),
       currentAccountPicture: new CircleAvatar(
         backgroundImage: AssetImage('images/logo.png'), radius: 35.0,),);
 
@@ -375,8 +378,15 @@ class HomePageState extends State<HomePage> {
 //              onTap: () {
 //                Navigator.pop(context);
 //              },),
+            // new Container(
+            //   child: new DrawerHeader(
+            //     child: userHeader),
+            //     color: Color.fromRGBO(217, 125, 84, 1)),
+            // new Container(
+            //   color: Color.fromRGBO(217, 125, 84, 1)
+            // )
             ListTile(title: Text('我的狗窝'),
-              leading: new CircleAvatar(child: new Icon(Icons.sd_storage),),
+              leading: new CircleAvatar(child: new Icon(Icons.pets),),
               onTap: () {
                 Navigator.of(context).pushNamed(GouPage.tag).then((value) => setState(() {
                 }));
@@ -398,7 +408,7 @@ class HomePageState extends State<HomePage> {
               },),
             ListTile(title: Text('商店'),
               leading: new CircleAvatar(
-                child: new Icon(Icons.list),),
+                child: new Icon(Icons.store),),
               onTap: () {
                 Navigator.of(context).pushNamed(StorePage.tag).then((value) => setState(() {
                 }));

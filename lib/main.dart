@@ -40,6 +40,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: new ThemeData(
         primarySwatch: Colors.lightBlue,
+        canvasColor:  Color.fromRGBO(220, 220, 220, 0.8),
+        fontFamily: 'Georgia',
+
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
       ),
       home: SplashPage(),
       routes: routes,

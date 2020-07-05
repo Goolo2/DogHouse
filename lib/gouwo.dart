@@ -24,13 +24,14 @@ class gouState extends State<GouPage>{
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
-        title: Text("Home"),
+        backgroundColor: Color.fromRGBO(50, 71, 85, 1),
+        title: Text("我的狗窝"),
       ),
       body: CustomScrollView(
         slivers: <Widget>[
           new SliverAppBar(
             // title:Text('Demo'),
+            automaticallyImplyLeading: false,
             centerTitle: true,
             pinned: true,
             //是否固定。
@@ -81,7 +82,7 @@ class gouState extends State<GouPage>{
           height: 200,
           width: 345,
           margin: EdgeInsets.all(10),
-          color: Colors.blue,
+          color: Color.fromRGBO(135, 188, 191, 1),
           child: Center(
               child: Text(time.date.month.toString()+'月'+time.date.day.toString()+'日\n  '+time.date.hour.toString()+':'+time.date.minute.toString(),
                   style:TextStyle(
@@ -94,7 +95,7 @@ class gouState extends State<GouPage>{
           height: 200,
           width: 345,
           margin: EdgeInsets.all(10),
-          color: Colors.lightBlue,
+          color: Color.fromRGBO(217, 125, 84, 1),
           padding: EdgeInsets.all(10),
 //          child: Center(
 //            child: Text(time.tag.toString()+' for '+time.time.toString()+'min'
@@ -109,7 +110,7 @@ class gouState extends State<GouPage>{
           Text(time.tag.toString()+' for '+time.time.toString()+'min'
                 ,style: TextStyle(
                   color: Colors.white,
-                  fontSize:30,
+                  fontSize:20,
                 )),
             Image.asset('images/store/dog'+time.currentDogId.toString()+'.png'),
 //            Image.asset('images/store'+name+'.png'),

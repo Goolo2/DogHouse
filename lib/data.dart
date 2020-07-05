@@ -150,8 +150,8 @@ class systemPagerState extends State<DataPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.indigo,
-        title: Text("Home"),
+        backgroundColor: Color.fromRGBO(50, 71, 85, 1),
+        title: Text("数据统计"),
       ),
       body: CustomScrollView(
         slivers: <Widget>[

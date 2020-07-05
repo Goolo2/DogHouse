@@ -34,14 +34,14 @@ class _SettingsPageState extends State<SettingsPage> {
         brightness: _getBrightness(),
       ),
       child: Scaffold(
-        backgroundColor: _dark ? null : Colors.lightBlueAccent,
+        backgroundColor: _dark ? null : Color.fromRGBO(50, 71, 85, 1),
         appBar: AppBar(
           elevation: 0,
           brightness: _getBrightness(),
           iconTheme: IconThemeData(color: _dark ? Colors.white : Colors.black),
           backgroundColor: Colors.transparent,
           title: Text(
-            'Settings',
+            '设置',
             style: TextStyle(color: _dark ? Colors.white : Colors.black),
           ),
           actions: <Widget>[
@@ -133,7 +133,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   const SizedBox(height: 20.0),
                   Text(
-                    "Notification Settings",
+                    "其他设置",
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -144,28 +144,28 @@ class _SettingsPageState extends State<SettingsPage> {
                     activeColor: Colors.purple,
                     contentPadding: const EdgeInsets.all(0),
                     value: true,
-                    title: Text("Undetermined"),
+                    title: Text("待完善"),
                     onChanged: null,
                   ),
                   SwitchListTile(
                     activeColor: Colors.purple,
                     contentPadding: const EdgeInsets.all(0),
                     value: false,
-                    title: Text("Undetermined"),
+                    title: Text("待完善"),
                     onChanged: null,
                   ),
                   SwitchListTile(
                     activeColor: Colors.purple,
                     contentPadding: const EdgeInsets.all(0),
                     value: true,
-                    title: Text("Undetermined"),
+                    title: Text("待完善"),
                     onChanged: null,
                   ),
                   SwitchListTile(
                     activeColor: Colors.purple,
                     contentPadding: const EdgeInsets.all(0),
                     value: true,
-                    title: Text("Undetermined"),
+                    title: Text("待完善"),
                     onChanged: null,
                   ),
                   const SizedBox(height: 60.0),

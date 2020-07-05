@@ -84,14 +84,14 @@ class _FriendsPageState extends State<FriendsPage> {
     return Scaffold(
       //AppBar
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(50, 71, 85, 1),
         title: Text(
-         "friends",
-          style: TextStyle(
-            color: Colors.lightBlue,
-          ),
+         "好友",
+          // style: TextStyle(
+          //   color: Colors.lightBlue,
+          // ),
         ),
-        centerTitle: true,
+        // centerTitle: true,
         actions: <Widget>[
           IconButton(
               icon:Icon(
