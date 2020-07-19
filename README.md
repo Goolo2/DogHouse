@@ -1,12 +1,32 @@
-# doghouse
+# Doghouse
 
 A new Flutter application.
 
 ## Function
 
+![image-20200719220700086](README.assets/image-20200719220700086.png)
+
 ## screenshot
 
+![image-20200719220447932](README.assets/image-20200719220447932.png)
+
+![image-20200719220450681](README.assets/image-20200719220450681.png)
+
+![image-20200719220456774](README.assets/image-20200719220456774.png)
+
+![image-20200719220509292](README.assets/image-20200719220509292.png)
+
+![image-20200719220514264](README.assets/image-20200719220514264.png)
+
+![image-20200719220518476](README.assets/image-20200719220518476.png)
+
+![image-20200719220529952](README.assets/image-20200719220529952.png)
+
+![image-20200719220534106](README.assets/image-20200719220534106.png)
+
 ![image-20200719220225779](README.assets/image-20200719220225779.png)
+
+![image-20200719220544929](README.assets/image-20200719220544929.png)
 
 ## Getting Started
 
