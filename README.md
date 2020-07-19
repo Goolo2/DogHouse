@@ -1,30 +1,75 @@
 # Doghouse
 
-A new Flutter application.
+The APP is a time management APP based on Flutter & Firebase. Improve users productivity at work and study by timekeeping.
+
+The main functions include:
+
+- HomePage
+- Timekeep & tag
+- DogHousePage
+- FriendPage
+- StorePage
+- SettingPage
 
 ## Function
 
-![image-20200719220700086](README.assets/image-20200719220700086.png)
+### HomePage
 
-## screenshot
+This page is the initial screen of the program after login. It includes the main page and the sidebar.
+
+#### Main Page:
 
 ![image-20200719220447932](README.assets/image-20200719220447932.png)
 
-![image-20200719220450681](README.assets/image-20200719220450681.png)
-
-![image-20200719220456774](README.assets/image-20200719220456774.png)
-
-![image-20200719220509292](README.assets/image-20200719220509292.png)
+#### Sidebar:
 
 ![image-20200719220514264](README.assets/image-20200719220514264.png)
 
-![image-20200719220518476](README.assets/image-20200719220518476.png)
+### Timekeep & tag
+
+Timekeeping and tagging are the main features of the app. You can select the duration and the tags.
+
+#### Time Selecting
+
+
+
+![image-20200719220456774](README.assets/image-20200719220456774.png)
+
+#### Tag Selecting
+
+![image-20200719220450681](README.assets/image-20200719220450681.png)
+
+#### Timekeeping
+
+![image-20200719220509292](README.assets/image-20200719220509292.png)
+
+### DataPage
+
+Charting user timekeeping habits.
 
 ![image-20200719220529952](README.assets/image-20200719220529952.png)
 
+### DogHousePage
+
+Display the entrys with reversible cards. Click on the card to turn it over.
+
+![image-20200719220518476](README.assets/image-20200719220518476.png)
+
+### FriendPage
+
+You can add friends and compare times by leaderboard.
+
 ![image-20200719220534106](README.assets/image-20200719220534106.png)
 
+### StorePage
+
+Users can earn coins by timing and can unlock more pets in the store.
+
 ![image-20200719220225779](README.assets/image-20200719220225779.png)
+
+### SettingPage
+
+Users can change their password, change their username and log out.
 
 ![image-20200719220544929](README.assets/image-20200719220544929.png)
 
